@@ -67,10 +67,13 @@ public class MapActivity extends FragmentActivity implements LocationListener {
         // Initialize map options. For example:
         // mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         //double[][] markersList = db.getList();
-        printMarkersToConsole();
-
-        ArrayList startPosition =
+        //printMarkersToConsole();
+        LatLng start = new LatLng(53.606779,9.904833);
+        LatLng end = new LatLng(55.070049, 14.749907);
         nav = new Navigator(mMap,start,end);
+        nav.findDirections(true);
+        //53.606779, 55.070049
+        //9.904833, 14.749907
     }
     
 	public void printMarkersToConsole() {

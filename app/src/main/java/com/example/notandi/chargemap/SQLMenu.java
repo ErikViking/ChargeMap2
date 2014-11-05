@@ -13,7 +13,8 @@ public class SQLMenu extends Activity implements OnClickListener {
 
 	Button importEmbeddedGPSPoints, readMarkersToConsole, resetTableButton;
 	DBConnect db;
-
+    //53.606779, 55.070049
+    //9.904833, 14.749907
 	// approximately 2500 GPS points.
 	double[] latitude = { 53.606779, 55.070049, 55.070049, 56.464416,
 			55.831895, 55.820032, 55.680464, 55.820492, 55.699845, 55.782813,
