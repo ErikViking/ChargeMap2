@@ -15,8 +15,11 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
 public class MapActivity extends FragmentActivity implements LocationListener {
     private GoogleMap mMap;
+    Navigator nav;
     private DBConnect db;
     
     @Override
@@ -65,7 +68,9 @@ public class MapActivity extends FragmentActivity implements LocationListener {
         // mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         //double[][] markersList = db.getList();
         printMarkersToConsole();
-        
+
+        ArrayList startPosition =
+        nav = new Navigator(mMap,start,end);
     }
     
 	public void printMarkersToConsole() {
