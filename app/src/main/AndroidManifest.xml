@@ -46,6 +46,14 @@
             android:name=".SQLMenu"
             android:label="SQLMenu" >
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="MainActivity" >
+        </activity>
+        <activity
+            android:name=".GPSActivity"
+            android:label="GPSActivity" >
+        </activity>
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"

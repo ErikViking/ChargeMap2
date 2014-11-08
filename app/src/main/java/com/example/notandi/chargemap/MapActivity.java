@@ -47,7 +47,7 @@ public class MapActivity extends FragmentActivity implements LocationListener {
             .build();                   // Creates a CameraPosition from the builder
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         }
-
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 6000, 0, this);
     }
 
     @Override
@@ -72,8 +72,6 @@ public class MapActivity extends FragmentActivity implements LocationListener {
         LatLng end = new LatLng(55.070049, 14.749907);
         nav = new Navigator(mMap,start,end);
         nav.findDirections(true);
-        //53.606779, 55.070049
-        //9.904833, 14.749907
     }
     
 	public void printMarkersToConsole() {
