@@ -14,7 +14,7 @@ import android.util.Log;
 //DAO object.
 public class DBConnect {
 
-	
+
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
 
@@ -61,17 +61,17 @@ public class DBConnect {
         int listIndex = 0;
         Log.d("Default", "ListIndex is 0");
         cursor2.moveToFirst();
-       
+
         if (cursor2.moveToFirst()) {
             do {
                 list[listIndex][0] = Double.parseDouble(cursor2.getString(0));
                 list[listIndex][1] = Double.parseDouble(cursor2.getString(1));
-                
+
                 //Log.d("Default", "" + "The list is: " + list[listIndex][0] + ", " + list[listIndex][1]);
                 listIndex++;
             } while (cursor2.moveToNext());
         }
-        
+
         Log.d("Default", "ListIndex is: " + listIndex);
         close();
         return list;

@@ -1,11 +1,9 @@
 package com.example.notandi.chargemap;
 
 import android.app.Activity;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -14,7 +12,7 @@ import android.widget.TextView;
 /**
  * Created by Notandi on 06.11.2014.
  */
-public class GPSActivity extends Activity implements LocationListener{
+public class GPSActivity extends Activity implements LocationListener {
 
     TextView Latitude, Longitude;
     LocationManager locationManager;

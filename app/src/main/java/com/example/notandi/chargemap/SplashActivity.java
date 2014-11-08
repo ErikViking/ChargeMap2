@@ -20,16 +20,17 @@ public class SplashActivity extends Activity implements Runnable {
         iv.setImageResource(R.drawable.logo);
         setContentView(iv);
         if (savedInstanceState == null) {
-            handler.postDelayed(this, 100); 
+            handler.postDelayed(this, 100);
         }
         presentActivity = this;
     }
 
     public void run() {
         startActivity(new Intent(this, MenuActivity.class));
-        presentActivity.finish(); 
+        presentActivity.finish();
         presentActivity = null;
     }
+
     @Override
     public void finish() {
         super.finish();
