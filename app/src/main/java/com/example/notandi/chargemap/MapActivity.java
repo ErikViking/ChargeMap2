@@ -27,7 +27,7 @@ public class MapActivity extends FragmentActivity implements LocationListener {
         db = new DBConnect(this);
         setUpMapIfNeeded();
 
-
+        //Location
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Location location = locationManager.getLastKnownLocation("network");
         Log.d("Default", "Location = " + location);
