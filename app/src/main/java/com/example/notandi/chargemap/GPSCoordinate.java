@@ -1,8 +1,5 @@
 package com.example.notandi.chargemap;
 
-import android.location.Location;
-
-import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Created by notandi on 09.11.14.
@@ -14,8 +11,10 @@ public class GPSCoordinate {
     //public double clearlineDist;
     //public double
 
-    public GPSCoordinate(Location location, LatLng latlng) {
+    public GPSCoordinate(double lat, double lon) {
         super();
 
+        this.lat = lat;
+        this.lon = lon;
     }
 }

@@ -18,8 +18,7 @@ public class DistanceListActivity extends Activity {
     Navigator nav;
 
     double[][] list;
-    LatLng latLng;
-    ArrayList<GPSCoordinate> coordinate;
+    ArrayList<GPSCoordinate> coordinates;
 
 
     @Override
@@ -37,11 +36,12 @@ public class DistanceListActivity extends Activity {
         int listIndex = 0;
         int rows = list.length;
         for (int i = 0; i < list.length; i++) {
-
+            coordinates.add(new GPSCoordinate(list[listIndex][0], list[listIndex][1]));
+            //coordinates.add(new GPSCoordinate(list[listIndex][0], list[listIndex][1]);
+            //Log.d("Default", "The list is: " + list[listIndex][0] + ", " + list[listIndex][1]);
+            listIndex++;
         }
     }
-
-
 
 }
 
