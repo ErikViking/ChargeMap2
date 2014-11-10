@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -16,15 +20,30 @@ public class DistanceListActivity extends Activity {
 
     DBConnect db = new DBConnect(this);
     Navigator nav;
-
+    TextView textView;
+    ArrayList<GPSCoordinate> coordinatesList;
     double[][] list;
-    ArrayList<GPSCoordinate> coordinates;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("Default", "OnCreate run");
 
+        LinearLayout linLayout = new LinearLayout(this);
+        linLayout.setOrientation(LinearLayout.VERTICAL);
+        ViewGroup.LayoutParams linLayoutParam = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        setContentView(linLayout, linLayoutParam);
+        Log.d("Default", "Layout set up");
+
+        getList();
+        populateArraylist();
+        Log.d("Default", "GetList Run");
+
+        textView = new TextView(this);
+        textView.setText(String.valueOf(coordinatesList));
+        linLayout.addView(textView);
+        Log.d("Default", "TextView set up");
     }
 
 
@@ -34,13 +53,24 @@ public class DistanceListActivity extends Activity {
 
     private void populateArraylist(){
         int listIndex = 0;
-        int rows = list.length;
+
+        coordinatesList = new ArrayList();
+
+        GPSCoordinate rGPSCoordinate = new GPSCoordinate(222.22, 222.2223);
+
+        coordinatesList.add(rGPSCoordinate);
+
         for (int i = 0; i < list.length; i++) {
-            coordinates.add(new GPSCoordinate(list[listIndex][0], list[listIndex][1]));
-            //coordinates.add(new GPSCoordinate(list[listIndex][0], list[listIndex][1]);
-            //Log.d("Default", "The list is: " + list[listIndex][0] + ", " + list[listIndex][1]);
+            Log.d("Default", "The list is: " + list[listIndex][0] + ", " + list[listIndex][1]);
+
+
+
+            coordinatesList.add(new GPSCoordinate(list[listIndex][0], list[listIndex][1]));
+
+
             listIndex++;
         }
+
     }
 
 }
