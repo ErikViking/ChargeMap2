@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -43,7 +44,10 @@ public class DistanceListActivity extends Activity implements AdapterView.OnItem
 
         Log.d("Default", "ListView set up");
 
+        int coordinatesIndex = 0;
 
+        double templat= coordinates.get(coordinatesIndex).getLat();
+        double tempLon= coordinates.get(coordinatesIndex).getLon();
 
         /*
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.listPanel, R.id.Address, coordinates) {
@@ -65,13 +69,7 @@ public class DistanceListActivity extends Activity implements AdapterView.OnItem
             Log.d("Default","ListView set up");
             */
         }
-
-
-    private void getList(){
-        list = db.getList();
-    }
-
-    private void populateArraylist(){
+    private void populateArraylist() {
         int listIndex = 0;
         coordinates = new ArrayList<GPSCoordinate>();
 
@@ -81,8 +79,12 @@ public class DistanceListActivity extends Activity implements AdapterView.OnItem
             coordinates.add(rCoordinate);
             listIndex++;
         }
-
     }
+
+    private void getList(){
+        list = db.getList();
+    }
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -100,6 +102,19 @@ public class DistanceListActivity extends Activity implements AdapterView.OnItem
         int rows = list.length;
         for (int i = 0; i < list.length; i++) {
 
+        }
+
+    }
+
+        private void populateArraylist(){
+        int listIndex = 0;
+        coordinates = new ArrayList<GPSCoordinate>();
+
+        for (int i = 0; i < list.length; i++) {
+            Log.d("Default", "The list is: " + list[listIndex][0] + ", " + list[listIndex][1]);
+            rCoordinate = new GPSCoordinate(list[listIndex][0], list[listIndex][1]);
+            coordinates.add(rCoordinate);
+            listIndex++;
         }
 
     }
