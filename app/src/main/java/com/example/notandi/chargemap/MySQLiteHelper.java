@@ -12,12 +12,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "dataloggerdb";
     public static final String GPS_TABLE = "gpstable";
-    //public static final String ID = "id";
-    //public static final String NAME = "name";
-    //public static final String SCORE = "score";
     public static final String LATITUDE = "latitude";
     public static final String LONGITUDE = "longitude";
+    //public static final String Distance = "longitude";
     static final int DATABASE_VERSION = 3;
+
 
     // Database creation sql statement
     private static final String DATABASE_CREATE = "create table "

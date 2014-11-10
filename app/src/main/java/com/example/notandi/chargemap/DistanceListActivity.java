@@ -4,9 +4,15 @@ import android.app.Activity;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -16,7 +22,7 @@ import java.util.Map;
 /**
  * Created by notandi on 08.11.14.
  */
-public class DistanceListActivity extends Activity {
+public class DistanceListActivity extends Activity implements AdapterView.OnItemClickListener {
 
     DBConnect db = new DBConnect(this);
     Navigator nav;
@@ -31,21 +37,34 @@ public class DistanceListActivity extends Activity {
         super.onCreate(savedInstanceState);
         Log.d("Default", "OnCreate run");
 
-        LinearLayout linLayout = new LinearLayout(this);
-        linLayout.setOrientation(LinearLayout.VERTICAL);
-        ViewGroup.LayoutParams linLayoutParam = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        setContentView(linLayout, linLayoutParam);
-        Log.d("Default", "Layout set up");
-
         getList();
         populateArraylist();
         Log.d("Default", "GetList Run");
 
-        textView = new TextView(this);
-        textView.setText(String.valueOf(coordinates));
-        linLayout.addView(textView);
-        Log.d("Default", "TextView set up");
-    }
+        Log.d("Default", "ListView set up");
+
+
+
+        /*
+        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.listPanel, R.id.Address, coordinates) {
+            @Override
+            public View getView(int position, View cachedView, ViewGroup parent) {
+                View view = super.getView(position, cachedView, parent);
+
+                TextView gpsPoint = (TextView) view.findViewById(R.id.GPSPoints);
+
+
+                gpsPoint.setText("GPS point: " + coordinates(position));
+                //gpsPoint.setText("GPS point: " + position);
+                return view;
+            }
+
+            ListView listView = new ListView(this);
+            listView.setOnItemClickListener(this);
+            listView.setAdapter(adapter);
+            Log.d("Default","ListView set up");
+            */
+        }
 
 
     private void getList(){
@@ -54,27 +73,21 @@ public class DistanceListActivity extends Activity {
 
     private void populateArraylist(){
         int listIndex = 0;
-
         coordinates = new ArrayList<GPSCoordinate>();
-
-        //coordinates.add(listIndex, )
 
         for (int i = 0; i < list.length; i++) {
             Log.d("Default", "The list is: " + list[listIndex][0] + ", " + list[listIndex][1]);
-            //coordinates.add(listIndex +1, new GPSCoordinate(list[listIndex][0], list[listIndex][1]));
-            //coordinates.add(listIndex, new GPSCoordinate(list[listIndex][0], list[listIndex][1]));
-            //new GPSCoordinate()
-            //coordinates.add(new GPSCoordinate(10.00, 11.11));
             rCoordinate = new GPSCoordinate(list[listIndex][0], list[listIndex][1]);
             coordinates.add(rCoordinate);
-
-
-
             listIndex++;
         }
 
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(this, "Klik på " + position, Toast.LENGTH_SHORT).show();
+    }
 }
 
 
