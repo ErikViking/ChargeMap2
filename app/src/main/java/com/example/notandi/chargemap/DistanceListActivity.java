@@ -21,9 +21,10 @@ public class DistanceListActivity extends Activity {
     DBConnect db = new DBConnect(this);
     Navigator nav;
     TextView textView;
-    ArrayList<GPSCoordinate> coordinatesList;
-    double[][] list;
 
+    double[][] list;
+    GPSCoordinate rCoordinate;
+    ArrayList<GPSCoordinate> coordinates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class DistanceListActivity extends Activity {
         Log.d("Default", "GetList Run");
 
         textView = new TextView(this);
-        textView.setText(String.valueOf(coordinatesList));
+        textView.setText(String.valueOf(coordinates));
         linLayout.addView(textView);
         Log.d("Default", "TextView set up");
     }
@@ -54,18 +55,19 @@ public class DistanceListActivity extends Activity {
     private void populateArraylist(){
         int listIndex = 0;
 
-        coordinatesList = new ArrayList();
+        coordinates = new ArrayList<GPSCoordinate>();
 
-        GPSCoordinate rGPSCoordinate = new GPSCoordinate(222.22, 222.2223);
-
-        coordinatesList.add(rGPSCoordinate);
+        //coordinates.add(listIndex, )
 
         for (int i = 0; i < list.length; i++) {
             Log.d("Default", "The list is: " + list[listIndex][0] + ", " + list[listIndex][1]);
+            //coordinates.add(listIndex +1, new GPSCoordinate(list[listIndex][0], list[listIndex][1]));
+            //coordinates.add(listIndex, new GPSCoordinate(list[listIndex][0], list[listIndex][1]));
+            //new GPSCoordinate()
+            //coordinates.add(new GPSCoordinate(10.00, 11.11));
+            rCoordinate = new GPSCoordinate(list[listIndex][0], list[listIndex][1]);
+            coordinates.add(rCoordinate);
 
-
-
-            coordinatesList.add(new GPSCoordinate(list[listIndex][0], list[listIndex][1]));
 
 
             listIndex++;
