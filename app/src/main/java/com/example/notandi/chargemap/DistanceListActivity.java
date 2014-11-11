@@ -45,11 +45,13 @@ public class DistanceListActivity extends Activity implements AdapterView.OnItem
         Log.d("Default", "ListView set up");
 
         int coordinatesIndex = 0;
+        GPSCoordinate workingGPSP = coordinates.get(2);
+        double workingDouble = workingGPSP.getLat();
+        System.out.println(workingDouble);
+        //double templat= coordinates.get(coordinatesIndex).getLat();
+        //double tempLon= coordinates.get(coordinatesIndex).getLon();
+        //System.out.println(templat + " , " + tempLon);
 
-        double templat= coordinates.get(coordinatesIndex).getLat();
-        double tempLon= coordinates.get(coordinatesIndex).getLon();
-
-        /*
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.listPanel, R.id.Address, coordinates) {
             @Override
             public View getView(int position, View cachedView, ViewGroup parent) {
@@ -67,7 +69,7 @@ public class DistanceListActivity extends Activity implements AdapterView.OnItem
             listView.setOnItemClickListener(this);
             listView.setAdapter(adapter);
             Log.d("Default","ListView set up");
-            */
+
         }
     private void populateArraylist() {
         int listIndex = 0;
