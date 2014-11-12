@@ -9,8 +9,8 @@ import android.widget.ImageView;
 //Stammer fra Jacob Nordfalk
 
 public class SplashActivity extends Activity implements Runnable {
-    Handler handler = new Handler();
     static SplashActivity presentActivity = null;
+    Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

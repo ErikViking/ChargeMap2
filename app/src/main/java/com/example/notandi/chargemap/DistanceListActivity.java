@@ -1,29 +1,24 @@
 package com.example.notandi.chargemap;
 
 import android.app.Activity;
-import android.graphics.Point;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
 
 /**
  * Created by notandi on 08.11.14.
  */
-public class DistanceListActivity extends Activity implements AdapterView.OnItemClickListener {
+public class DistanceListActivity extends Activity implements OnItemClickListener {
 
     DBConnect db = new DBConnect(this);
     Navigator nav;
@@ -44,46 +39,52 @@ public class DistanceListActivity extends Activity implements AdapterView.OnItem
 
         Log.d("Default", "ListView set up");
 
-        int coordinatesIndex = 0;
-        GPSCoordinate workingGPSP = coordinates.get(2);
-        double workingDouble = workingGPSP.getLat();
-        System.out.println(workingDouble);
-        //double templat= coordinates.get(coordinatesIndex).getLat();
-        //double tempLon= coordinates.get(coordinatesIndex).getLon();
-        //System.out.println(templat + " , " + tempLon);
+        GPSCoordinate workingGPSPoint = coordinates.get(2);
+        double workingLat = workingGPSPoint.getLat();
+        double workingLon = workingGPSPoint.getLon();
+        System.out.println("GPS point is: " + workingLat + " and " + workingLon);
 
-        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.listPanel, R.id.Address, coordinates) {
+        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.listpanel, R.id.Address, coordinates) {
             @Override
             public View getView(int position, View cachedView, ViewGroup parent) {
                 View view = super.getView(position, cachedView, parent);
 
+                GPSCoordinate workingGPSPoint = coordinates.get(position);
+                double workingLat = workingGPSPoint.getLat();
+                double workingLon = workingGPSPoint.getLon();
+
                 TextView gpsPoint = (TextView) view.findViewById(R.id.GPSPoints);
+                TextView Address = (TextView) view.findViewById(R.id.Address);
 
+                gpsPoint.setText("GPS point: " + workingLat + ", " + workingLon);
 
-                gpsPoint.setText("GPS point: " + coordinates(position));
-                //gpsPoint.setText("GPS point: " + position);
                 return view;
             }
+        };
 
-            ListView listView = new ListView(this);
-            listView.setOnItemClickListener(this);
-            listView.setAdapter(adapter);
-            Log.d("Default","ListView set up");
+        ListView listView = new ListView(this);
+        listView.setOnItemClickListener(this);
+        listView.setAdapter(adapter);
+        Log.d("Default", "ListView set up");
 
-        }
+        listView.setSelector(android.R.drawable.ic_notification_overlay);
+
+        setContentView(listView);
+    }
+
     private void populateArraylist() {
         int listIndex = 0;
         coordinates = new ArrayList<GPSCoordinate>();
 
         for (int i = 0; i < list.length; i++) {
-            Log.d("Default", "The list is: " + list[listIndex][0] + ", " + list[listIndex][1]);
+            //Log.d("Default", "The list is: " + list[listIndex][0] + ", " + list[listIndex][1]);
             rCoordinate = new GPSCoordinate(list[listIndex][0], list[listIndex][1]);
             coordinates.add(rCoordinate);
             listIndex++;
         }
     }
 
-    private void getList(){
+    private void getList() {
         list = db.getList();
     }
 
@@ -91,8 +92,16 @@ public class DistanceListActivity extends Activity implements AdapterView.OnItem
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(this, "Klik på " + position, Toast.LENGTH_SHORT).show();
+
+        GPSCoordinate destinationGPSPoint = coordinates.get(position);
+
+        Intent i = new Intent(this, MapActivity.class);
+        i.putExtra("destiNation", (java.io.Serializable) destinationGPSPoint);
+        startActivity(i);
     }
+
 }
+
 
 
 /*

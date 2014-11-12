@@ -43,10 +43,6 @@ public class Navigator {
         this.map = map;
     }
 
-    public interface OnPathSetListener {
-        public void onPathSetListener(Directions directions);
-    }
-
     public void setOnPathSetListener(OnPathSetListener listener) {
         this.listener = listener;
     }
@@ -152,6 +148,10 @@ public class Navigator {
 
     public ArrayList<Polyline> getPathLines() {
         return lines;
+    }
+
+    public interface OnPathSetListener {
+        public void onPathSetListener(Directions directions);
     }
 
     private class PathCreator extends AsyncTask<Void, Void, Directions> {

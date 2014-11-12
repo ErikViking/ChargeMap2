@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
+import android.content.Intent;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -16,9 +17,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapActivity extends FragmentActivity implements LocationListener {
-    private GoogleMap mMap;
     Navigator nav;
+    private GoogleMap mMap;
     private DBConnect db;
+    private GPSCoordinate rCoordinate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,8 +67,15 @@ public class MapActivity extends FragmentActivity implements LocationListener {
         // mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         //double[][] markersList = db.getList();
         //printMarkersToConsole();
+
+
+        rCoordinate  = (GPSCoordinate) getIntent().getSerializableExtra("MyClass");
+
+        //getIntent().getSerializableExtra("MyClass");
+
+
         LatLng start = new LatLng(53.606779, 9.904833);
-        LatLng end = new LatLng(55.070049, 14.749907);
+        LatLng end = new LatLng(rCoordinate.getLat(), rCoordinate.getLon());
         nav = new Navigator(mMap, start, end);
         nav.findDirections(true);
     }

@@ -7,7 +7,6 @@ package com.example.notandi.chargemap;
 public class GPSCoordinate {
 
 
-
     public double lat;
     public double lon;
     //public double clearlineDist;
