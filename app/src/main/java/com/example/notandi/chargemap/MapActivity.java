@@ -69,7 +69,7 @@ public class MapActivity extends FragmentActivity implements LocationListener {
         //printMarkersToConsole();
 
 
-        rCoordinate  = (GPSCoordinate) getIntent().getSerializableExtra("MyClass");
+        rCoordinate  = (GPSCoordinate) getIntent().getSerializableExtra("destination");
 
         //getIntent().getSerializableExtra("MyClass");
 

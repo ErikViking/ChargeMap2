@@ -1,10 +1,12 @@
 package com.example.notandi.chargemap;
 
 
+import java.io.Serializable;
+
 /**
  * Created by notandi on 09.11.14.
  */
-public class GPSCoordinate {
+public class GPSCoordinate implements Serializable{
 
 
     public double lat;

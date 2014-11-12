@@ -3,6 +3,7 @@ package com.example.notandi.chargemap;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -96,7 +98,7 @@ public class DistanceListActivity extends Activity implements OnItemClickListene
         GPSCoordinate destinationGPSPoint = coordinates.get(position);
 
         Intent i = new Intent(this, MapActivity.class);
-        i.putExtra("destiNation", (java.io.Serializable) destinationGPSPoint);
+        i.putExtra("destination", (Serializable) destinationGPSPoint);
         startActivity(i);
     }
 
