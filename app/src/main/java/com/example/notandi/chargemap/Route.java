@@ -1,5 +1,7 @@
 package com.example.notandi.chargemap;
 
+import android.util.Log;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
@@ -22,7 +24,9 @@ public class Route {
     private String endAddress;
 
     public Route(JSONObject route) {
+        Log.d("Default", "parseRoute is started");
         parseRoute(route);
+        Log.d("Default", "parseRoute is done");
     }
 
     private void parseRoute(JSONObject obj3) {
@@ -115,7 +119,9 @@ public class Route {
     }
 
     public String getDistance() {
+        Log.d("Default", "getDistance is started");
         return totalDistance;
+
     }
 
     public String getStartAddress() {
