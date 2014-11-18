@@ -1,67 +1,26 @@
 package com.example.notandi.chargemap;
 
-import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-
-import android.content.Intent;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.example.notandi.chargemap.Directions;
-import com.example.notandi.chargemap.Navigator;
-import com.example.notandi.chargemap.Navigator.OnPathSetListener;
-import com.example.notandi.chargemap.Route;
-import android.content.Context;
-import android.content.Intent;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.notandi.chargemap.Navigator.OnPathSetListener;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapActivity extends FragmentActivity implements LocationListener ,Navigator.OnPathSetListener {
+
+public class MapActivity extends FragmentActivity implements LocationListener, Navigator.OnPathSetListener {
     Navigator nav;
+    Route route;
+    TextView txt;
     private GoogleMap mMap;
     private DBConnect db;
     private GPSCoordinate rCoordinate;
-    Route route;
-    TextView txt;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -117,7 +76,11 @@ public class MapActivity extends FragmentActivity implements LocationListener ,N
         nav = new Navigator(mMap, start, end);
         nav.findDirections(true);
         */
-
+        //LatLng end = new LatLng(30.0115474, 31.2065308);
+        //LatLng start = new LatLng(30.0146564, 31.204359);
+        //LatLng end = new LatLng(30.026041, 31.198350);
+        //LatLng start = new LatLng(30.022669, 31.206686);
+        //30.022669, 31.206686 and 30.026041, 31.198350
         LatLng start = new LatLng(53.606779, 9.904833);
         LatLng end = new LatLng(56.464416, 10.334164);
         //LatLng end = new LatLng(rCoordinate.getLat(), rCoordinate.getLon());
@@ -132,6 +95,15 @@ public class MapActivity extends FragmentActivity implements LocationListener ,N
                 route = directions.getRoutes().get(0);
                 //txt.setText("dist: " + route.getDistance());
                 Log.d("Default", "Distance is> " + route.getDistance());
+                Log.d("Default", "Distance is> " + route.getDistance());
+                System.out.println("Route=> " + route);
+                System.out.println("Distance " + route.getDistance());
+                //System.out.println("Startlocation: "+route.getStartLocation());
+                //System.out.println("Duration:"+route.getDuration());
+                System.out.println("Path: "+route.getPath().toString());
+                System.out.println("Legs:"+route.getLegs().toString());
+                System.out.println("GetDistance2 is here :"+route.getTotalDistance2().toString());
+
             }
         });
     }
@@ -156,7 +128,6 @@ public class MapActivity extends FragmentActivity implements LocationListener ,N
     @Override
     public void onLocationChanged(Location location) {
         // TODO Auto-generated method stub
-
     }
 
     @Override

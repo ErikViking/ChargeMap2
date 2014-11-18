@@ -185,6 +185,8 @@ public class Navigator {
                 HttpPost httpPost = new HttpPost(url);
                 HttpResponse response = httpClient.execute(httpPost, localContext);
 
+                System.out.println(url);
+
                 if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 
                     String s = EntityUtils.toString(response.getEntity());

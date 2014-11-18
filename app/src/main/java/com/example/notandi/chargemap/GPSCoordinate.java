@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  * Created by notandi on 09.11.14.
  */
-public class GPSCoordinate implements Serializable{
+public class GPSCoordinate implements Serializable {
 
 
     public double lat;
@@ -19,6 +19,7 @@ public class GPSCoordinate implements Serializable{
 
         this.lat = lat;
         this.lon = lon;
+
     }
 
     public double getLat() {

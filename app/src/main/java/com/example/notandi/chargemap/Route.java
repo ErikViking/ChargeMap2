@@ -17,25 +17,52 @@ public class Route {
     private ArrayList<Legs> legs = new ArrayList<Legs>();
     private String totalDuration;
     private String totalDistance;
+
+
+
+    private String totalDistance2;
     private LatLng startLoc;
     private LatLng endLoc;
     private LatLngBounds bounds;
     private String startAddress;
     private String endAddress;
 
-    public Route(JSONObject route) {
+    public Route(JSONObject route){
         Log.d("Default", "parseRoute is started");
         parseRoute(route);
         Log.d("Default", "parseRoute is done");
+        //http://maps.googleapis.com/maps/api/directions/json?origin=53.606779,9.904833&destination=56.464416,10.334164&sensor=false&units=metric&mode=driving&alternatives=false
+        //Log.d("Default", "2222222TotalDistance is >" + route.toString(route.summary));
+
     }
 
     private void parseRoute(JSONObject obj3) {
         try {
             if (!obj3.isNull("legs")) {
+
+
+
+
+
+
                 JSONArray leg = obj3.getJSONArray("legs");
 
                 for (int i = 0; i < leg.length(); i++) {
                     JSONObject obj = leg.getJSONObject(i);
+
+                    if(i == 0){
+                        //JSONObject obj2 = leg.getJSONObject(i);
+
+                        JSONObject text = obj.getJSONObject("distance");
+                        String blehAgain = text.getString("text");
+                        Log.d("Default", "3333333TotalDistance is >" + blehAgain);
+
+totalDistance2 = blehAgain;
+                    }
+
+
+
+
                     if (i == 0) {
                         if (!obj.isNull("start_address")) {
                             startAddress = obj.getString("start_address");
@@ -44,21 +71,22 @@ public class Route {
                         if (!obj.isNull("end_address")) {
                             endAddress = obj.getString("end_address");
                         }
-
                     }
-
                     legs.add(new Legs(obj));
+
                 }
             }
 
             if (!obj3.isNull("distance")) {
                 JSONObject obj = obj3.getJSONObject("distance");
                 totalDistance = obj.getString("text");
+
             }
 
             if (!obj3.isNull("duration")) {
                 JSONObject obj = obj3.getJSONObject("duration");
                 totalDuration = obj.getString("text");
+
             }
 
             if (!obj3.isNull("start_location")) {
@@ -120,8 +148,8 @@ public class Route {
 
     public String getDistance() {
         Log.d("Default", "getDistance is started");
-        return totalDistance;
 
+        return totalDistance;
     }
 
     public String getStartAddress() {
@@ -146,6 +174,10 @@ public class Route {
 
     public LatLng getEndLocation() {
         return endLoc;
+    }
+
+    public String getTotalDistance2() {
+        return totalDistance2;
     }
 
 }

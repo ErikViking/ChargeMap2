@@ -19,7 +19,7 @@ import java.util.ArrayList;
 /**
  * Created by notandi on 08.11.14.
  */
-public class DistanceListActivity extends Activity implements OnItemClickListener {
+public class DistanceListActivity2 extends Activity implements OnItemClickListener {
 
     DBConnect db = new DBConnect(this);
     Navigator nav;
@@ -44,6 +44,8 @@ public class DistanceListActivity extends Activity implements OnItemClickListene
         double workingLat = workingGPSPoint.getLat();
         double workingLon = workingGPSPoint.getLon();
         System.out.println("GPS point is: " + workingLat + " and " + workingLon);
+
+
 
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.listpanel, R.id.Address, coordinates) {
             @Override
