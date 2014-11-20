@@ -36,6 +36,7 @@ public class Navigator {
     private long arrivalTime;
     private String avoid;
     private ArrayList<Polyline> lines = new ArrayList<Polyline>();
+    //private boolean drawPolyLine;
 
     public Navigator(GoogleMap map, LatLng startLocation, LatLng endLocation) {
         this.startPosition = startLocation;

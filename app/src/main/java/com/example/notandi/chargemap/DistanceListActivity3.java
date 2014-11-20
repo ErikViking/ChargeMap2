@@ -13,6 +13,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -21,9 +24,11 @@ import java.util.ArrayList;
  */
 public class DistanceListActivity3 extends Activity implements OnItemClickListener {
 
-    DBConnect db = new DBConnect(this);
+    Route route;
+    private GoogleMap mMap;
     Navigator nav;
-    TextView textView;
+
+    DBConnect db = new DBConnect(this);
 
     double presentLat, presentLon;
     GPSCoordinate presentGPSPoint;
@@ -39,7 +44,7 @@ public class DistanceListActivity3 extends Activity implements OnItemClickListen
         getList();
         populateArraylist();
         calculateArrayListDistance();
-        Log.d("Default", "GetList Run");;
+        Log.d("Default", "GetList Run");
 
         presentGPSPoint = new GPSCoordinate(53.606779, 9.904833);
         presentLat = presentGPSPoint.getLat();
@@ -63,6 +68,13 @@ public class DistanceListActivity3 extends Activity implements OnItemClickListen
                 return view;
             }
         };
+
+
+        LatLng start = new LatLng(53.606779, 9.904833);
+        LatLng end = new LatLng(56.464416, 10.334164);
+
+        nav = new Navigator(mMap, start, end);
+        nav.findDirections(false);
 
         ListView listView = new ListView(this);
         listView.setOnItemClickListener(this);
@@ -91,7 +103,6 @@ public class DistanceListActivity3 extends Activity implements OnItemClickListen
             GPSCoordinate workingGPSPoint = coordinates.get(i);
             double workingLat = workingGPSPoint.getLat();
             double workingLon = workingGPSPoint.getLon();
-
 
             Log.d("Default", "The list is: " + workingLat + ", " + workingLon);
 
