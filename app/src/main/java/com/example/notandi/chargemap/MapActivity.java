@@ -78,8 +78,10 @@ public class MapActivity extends FragmentActivity implements LocationListener, N
         */
         //LatLng end = new LatLng(30.0115474, 31.2065308);
         //LatLng start = new LatLng(30.0146564, 31.204359);
+
         //LatLng end = new LatLng(30.026041, 31.198350);
         //LatLng start = new LatLng(30.022669, 31.206686);
+
         //30.022669, 31.206686 and 30.026041, 31.198350
         LatLng start = new LatLng(53.606779, 9.904833);
         LatLng end = new LatLng(56.464416, 10.334164);
@@ -103,7 +105,6 @@ public class MapActivity extends FragmentActivity implements LocationListener, N
                 System.out.println("Path: "+route.getPath().toString());
                 System.out.println("Legs:"+route.getLegs().toString());
                 System.out.println("GetDistance2 is here :"+route.getTotalDistance2().toString());
-
             }
         });
     }

@@ -19,7 +19,6 @@ public class Route {
     private String totalDistance;
 
 
-
     private String totalDistance2;
     private LatLng startLoc;
     private LatLng endLoc;
@@ -27,7 +26,7 @@ public class Route {
     private String startAddress;
     private String endAddress;
 
-    public Route(JSONObject route){
+    public Route(JSONObject route) {
         Log.d("Default", "parseRoute is started");
         parseRoute(route);
         Log.d("Default", "parseRoute is done");
@@ -41,27 +40,20 @@ public class Route {
             if (!obj3.isNull("legs")) {
 
 
-
-
-
-
                 JSONArray leg = obj3.getJSONArray("legs");
 
                 for (int i = 0; i < leg.length(); i++) {
                     JSONObject obj = leg.getJSONObject(i);
 
-                    if(i == 0){
+                    if (i == 0) {
                         //JSONObject obj2 = leg.getJSONObject(i);
 
                         JSONObject text = obj.getJSONObject("distance");
                         String blehAgain = text.getString("text");
                         Log.d("Default", "3333333TotalDistance is >" + blehAgain);
 
-totalDistance2 = blehAgain;
+                        totalDistance2 = blehAgain;
                     }
-
-
-
 
                     if (i == 0) {
                         if (!obj.isNull("start_address")) {

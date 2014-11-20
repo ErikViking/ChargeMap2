@@ -53,7 +53,12 @@
         <activity
             android:name=".DistanceListActivity"
             android:label="DistanceListActivity"></activity>
-
+        <activity
+            android:name=".DistanceListActivity2"
+            android:label="DistanceListActivity2"></activity>
+        <activity
+            android:name=".DistanceListActivity3"
+            android:label="DistanceListActivity3"></activity>
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCr-riOfFfB-ya_5_S1KbLtOMqVEGi71Ys" />

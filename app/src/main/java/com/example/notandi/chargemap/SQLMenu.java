@@ -9,16 +9,20 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class SQLMenu extends Activity implements OnClickListener {
 
-    Button importEmbeddedGPSPoints, readMarkersToConsole, resetTableButton;
+    Button importEmbeddedGPSPoints, readMarkersToConsole, resetTableButton, sillyDoublesCheck;
     DBConnect db;
 
     double[] latitude = {53.606779, 55.070049, 55.070049, 56.464416,
             55.831895, 55.820032, 55.680464, 55.820492, 55.699845, 55.782813,
             55.783602, 55.702292, 55.631083, 55.641593, 54.141944, 58.154101,
             58.154106, 58.154111, 58.154109, 58.1541, 58.154104, 54.787778,
-            54.782222, 54.618033, 54.773889, 54.175513, 54.175268, 48.64083,
+            54.782222, 54.618033, 54.773889, 54.175513, 54.175268, 48.64083
+            /*
+            ,
             48.6286974, 47.25877545, 47.25986368, 48.3058507, 48.19606889,
             47.8437087, 46.70060064, 51.8094963, 47.42060476, 47.43870607,
             47.42664747, 47.4016313, 47.4011407, 47.45238181, 47.40990755,
@@ -398,12 +402,16 @@ public class SQLMenu extends Activity implements OnClickListener {
             52.416888, 52.5765, 52.367774, 52.329913, 52.440446, 52.373203,
             48.08354688, 50.0848, 49.98529986, 51.13890021, 50.07561804,
             49.10632, 48.56218112, 49.3532708, 51.93431832, 51.63166765,
-            49.22136545, 51.4187};
+            49.22136545, 51.4187
+    */
+    };
     double[] longitude = {9.904833, 14.749907, 14.749907, 10.334164,
             10.593513, 10.634549, 11.126944, 12.488974, 12.515309, 12.513143,
             12.517022, 12.563456, 12.581352, 12.585985, 10.6125, 8.00257,
             8.002572, 8.002573, 8.002574, 8.002578, 8.002578, 8.824722,
-            8.848889, 8.963972, 8.971667, 10.026462, 10.048188, 12.48732,
+            8.848889, 8.963972, 8.971667, 10.026462, 10.048188, 12.48732
+            /*
+            ,
             12.4951729, 15.97249233, 15.97071447, 13.2602588, 14.72621542,
             12.9538101, 11.92959844, 10.1047904, 12.84749688, 12.82054178,
             12.84482624, 12.77917474, 12.8377629, 12.7262526, 12.71395155,
@@ -752,7 +760,7 @@ public class SQLMenu extends Activity implements OnClickListener {
             9.736772, 9.80495, 9.740538, 9.73942, 16.28330433, 9.24632,
             8.415632881, 9.273463485, 8.876794839, 9.7728123, 16.07887264,
             8.1520707, 9.088190407, 13.70942844, 18.74019537, 9.18666
-
+*/
     };
 
     @Override
@@ -780,6 +788,11 @@ public class SQLMenu extends Activity implements OnClickListener {
         // linLayout.addView(resetTableButton);
         // resetTableButton.setText("Reset Table");
         // resetTableButton.setOnClickListener(this);
+
+        sillyDoublesCheck = new Button(this);
+        linLayout.addView(sillyDoublesCheck);
+        sillyDoublesCheck.setText("sillyDoublesCheck");
+        sillyDoublesCheck.setOnClickListener(this);
     }
 
     @Override
@@ -797,7 +810,17 @@ public class SQLMenu extends Activity implements OnClickListener {
             // System.out.println("GPS Marker READ: " + gpsMarkersList[i]);
             // }
         }
-    }
+/*
+        if (v == sillyDoublesCheck) {
+            double locLat = 53.606779;
+            double locLng = 9.904833;
+            double chargeLat = 56.464416;
+            double chargeLng = 10.334164;
+            if(Double.compare(locLat, ))
+           sillyDoublesCheck.setText("sillyDoublesCheck");
+        }
+        */
+   }
 
     public void printMarkersToConsole() {
         double[][] list = db.getList();
