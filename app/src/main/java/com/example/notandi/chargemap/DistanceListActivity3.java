@@ -126,6 +126,7 @@ public class DistanceListActivity3 extends Activity implements OnItemClickListen
         GPSCoordinate destinationGPSPoint = coordinates.get(position);
 
         Intent i = new Intent(this, MapActivity.class);
+        i.putExtra("drawPoly", false);
         i.putExtra("destination", (Serializable) destinationGPSPoint);
         startActivity(i);
     }

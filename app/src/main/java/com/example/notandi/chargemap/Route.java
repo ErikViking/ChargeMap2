@@ -32,7 +32,6 @@ public class Route {
         Log.d("Default", "parseRoute is done");
         //http://maps.googleapis.com/maps/api/directions/json?origin=53.606779,9.904833&destination=56.464416,10.334164&sensor=false&units=metric&mode=driving&alternatives=false
         //Log.d("Default", "2222222TotalDistance is >" + route.toString(route.summary));
-
     }
 
     private void parseRoute(JSONObject obj3) {

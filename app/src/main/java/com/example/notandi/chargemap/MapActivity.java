@@ -21,12 +21,15 @@ public class MapActivity extends FragmentActivity implements LocationListener, N
     private GoogleMap mMap;
     private DBConnect db;
     private GPSCoordinate rCoordinate;
+    private boolean drawPolyLine;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         db = new DBConnect(this);
+        drawPolyLine = true;
+
         setUpMapIfNeeded();
         /*
         //Location
@@ -69,13 +72,13 @@ public class MapActivity extends FragmentActivity implements LocationListener, N
         //double[][] markersList = db.getList();
         //printMarkersToConsole();
 
-        /*
+
         rCoordinate  = (GPSCoordinate) getIntent().getSerializableExtra("destination");
-        LatLng start = new LatLng(53.606779, 9.904833);
-        LatLng end = new LatLng(rCoordinate.getLat(), rCoordinate.getLon());
-        nav = new Navigator(mMap, start, end);
-        nav.findDirections(true);
-        */
+        LatLng intentStart = new LatLng(53.606779, 9.904833);
+        LatLng intentEnd = new LatLng(rCoordinate.getLat(), rCoordinate.getLon());
+        //nav = new Navigator(mMap, start, end);
+        //nav.findDirections(true);
+
         //LatLng end = new LatLng(30.0115474, 31.2065308);
         //LatLng start = new LatLng(30.0146564, 31.204359);
 
@@ -87,7 +90,22 @@ public class MapActivity extends FragmentActivity implements LocationListener, N
         LatLng end = new LatLng(56.464416, 10.334164);
         //LatLng end = new LatLng(rCoordinate.getLat(), rCoordinate.getLon());
         nav = new Navigator(mMap, start, end);
+
+
+
         nav.setDrawPolyLine(true);
+
+        Boolean dr = getIntent().getBooleanExtra("drawPoly", true);
+        Log.d("MapActivity", "Boolean dr is> " + dr);
+
+
+        if(dr){
+            nav.setDrawPolyLine(false);
+        }
+
+        //    return 0;
+        //}
+
         nav.findDirections(false);  //False just means it doesn't show alternative route (I think TM)
         //nav.findDirections(true);
         nav.setOnPathSetListener(new OnPathSetListener() {
@@ -97,14 +115,14 @@ public class MapActivity extends FragmentActivity implements LocationListener, N
 
                 route = directions.getRoutes().get(0);
                 //txt.setText("dist: " + route.getDistance());
-                Log.d("Default", "Distance is> " + route.getDistance());
-                Log.d("Default", "Distance is> " + route.getDistance());
-                System.out.println("Route=> " + route);
+                //Log.d("Default", "Distance is> " + route.getDistance());
+                //Log.d("Default", "Distance is> " + route.getDistance());
+                //System.out.println("Route=> " + route);
                 System.out.println("Distance " + route.getDistance());
-                //System.out.println("Startlocation: "+route.getStartLocation());
+                System.out.println("Startlocation: "+route.getStartLocation());
                 //System.out.println("Duration:"+route.getDuration());
-                System.out.println("Path: "+route.getPath().toString());
-                System.out.println("Legs:"+route.getLegs().toString());
+                //System.out.println("Path: "+route.getPath().toString());
+                //System.out.println("Legs:"+route.getLegs().toString());
                 System.out.println("GetDistance2 is here :"+route.getTotalDistance2().toString());
             }
         });
