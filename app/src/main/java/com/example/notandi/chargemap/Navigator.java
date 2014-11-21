@@ -36,7 +36,10 @@ public class Navigator {
     private long arrivalTime;
     private String avoid;
     private ArrayList<Polyline> lines = new ArrayList<Polyline>();
-    //private boolean drawPolyLine;
+
+
+
+    private boolean drawPolyLine;
 
     public Navigator(GoogleMap map, LatLng startLocation, LatLng endLocation) {
         this.startPosition = startLocation;
@@ -144,7 +147,12 @@ public class Navigator {
     }
 
     private Polyline showPath(Route route, int color) {
-        return map.addPolyline(new PolylineOptions().addAll(route.getPath()).color(color).width(pathWidth));
+        if(drawPolyLine){
+            return map.addPolyline(new PolylineOptions().addAll(route.getPath()).color(color).width(pathWidth));
+        }
+        else {
+            return null;
+        }
     }
 
     public ArrayList<Polyline> getPathLines() {
@@ -225,6 +233,10 @@ public class Navigator {
             }
         }
 
+    }
+
+    public void setDrawPolyLine(boolean drawPolyLine) {
+        this.drawPolyLine = drawPolyLine;
     }
 
 }

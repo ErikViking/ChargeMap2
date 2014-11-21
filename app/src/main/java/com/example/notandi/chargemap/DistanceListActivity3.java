@@ -74,6 +74,7 @@ public class DistanceListActivity3 extends Activity implements OnItemClickListen
         LatLng end = new LatLng(56.464416, 10.334164);
 
         nav = new Navigator(mMap, start, end);
+        nav.setDrawPolyLine(false);
         nav.findDirections(false);
 
         ListView listView = new ListView(this);

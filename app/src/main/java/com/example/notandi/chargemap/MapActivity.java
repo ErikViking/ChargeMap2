@@ -87,6 +87,7 @@ public class MapActivity extends FragmentActivity implements LocationListener, N
         LatLng end = new LatLng(56.464416, 10.334164);
         //LatLng end = new LatLng(rCoordinate.getLat(), rCoordinate.getLon());
         nav = new Navigator(mMap, start, end);
+        nav.setDrawPolyLine(true);
         nav.findDirections(false);  //False just means it doesn't show alternative route (I think TM)
         //nav.findDirections(true);
         nav.setOnPathSetListener(new OnPathSetListener() {
