@@ -35,7 +35,7 @@ public class Legs {
             if (!leg.isNull("distance")) {
                 JSONObject obj = leg.getJSONObject("distance");
                 totalDistance = obj.getString("text");
-                System.out.println("ParseRoute, Legs: "+ obj.toString());
+                //System.out.println("ParseRoute, Legs: "+ obj.toString());
             }
 
             if (!leg.isNull("duration")) {

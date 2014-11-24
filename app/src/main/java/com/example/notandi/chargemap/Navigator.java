@@ -212,7 +212,6 @@ public class Navigator {
 
         @Override
         protected void onPostExecute(Directions directions) {
-
             if (directions != null) {
                 Navigator.this.directions = directions;
                 for (int i = 0; i < directions.getRoutes().size(); i++) {
@@ -225,14 +224,11 @@ public class Navigator {
                         lines.add(showPath(r, thirdPath));
                     }
                 }
-
                 if (listener != null) {
                     listener.onPathSetListener(directions);
                 }
-
             }
         }
-
     }
 
     public void setDrawPolyLine(boolean drawPolyLine) {

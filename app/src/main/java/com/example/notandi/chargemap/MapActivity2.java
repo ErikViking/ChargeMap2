@@ -1,24 +1,20 @@
 package com.example.notandi.chargemap;
 
-import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.TextView;
 
 import com.example.notandi.chargemap.Navigator.OnPathSetListener;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class MapActivity extends FragmentActivity implements LocationListener, Navigator.OnPathSetListener {
+public class MapActivity2 extends FragmentActivity implements LocationListener, OnPathSetListener {
     Navigator nav;
     Route route;
     TextView txt;
@@ -35,7 +31,7 @@ public class MapActivity extends FragmentActivity implements LocationListener, N
         drawPolyLine = true;
 
         setUpMapIfNeeded();
-
+        /*
         //Location
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Location location = locationManager.getLastKnownLocation("network");
@@ -54,7 +50,7 @@ public class MapActivity extends FragmentActivity implements LocationListener, N
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 6000, 0, this);
-
+        */
     }
 
     @Override
@@ -78,9 +74,9 @@ public class MapActivity extends FragmentActivity implements LocationListener, N
 
         rCoordinate  = (GPSCoordinate) getIntent().getSerializableExtra("destination");
 
-        //LatLng intentStart = new LatLng(53.606779, 9.904833);
-        //LatLng intentEnd = new LatLng(rCoordinate.getLat(), rCoordinate.getLon());
-         //   Boolean dr = getIntent().getBooleanExtra("drawPoly", true);
+        LatLng intentStart = new LatLng(53.606779, 9.904833);
+        LatLng intentEnd = new LatLng(rCoordinate.getLat(), rCoordinate.getLon());
+            Boolean dr = getIntent().getBooleanExtra("drawPoly", true);
 
         //nav = new Navigator(mMap, start, end);
         //nav.findDirections(true);
@@ -92,8 +88,8 @@ public class MapActivity extends FragmentActivity implements LocationListener, N
         //LatLng start = new LatLng(30.022669, 31.206686);
 
         //30.022669, 31.206686 and 30.026041, 31.198350
-        //LatLng start = new LatLng(53.606779, 9.904833);
-        //LatLng end = new LatLng(56.464416, 10.334164);
+        LatLng start = new LatLng(53.606779, 9.904833);
+        LatLng end = new LatLng(56.464416, 10.334164);
         //LatLng end = new LatLng(rCoordinate.getLat(), rCoordinate.getLon());
         nav = new Navigator(mMap, start, end);
 

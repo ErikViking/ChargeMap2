@@ -18,6 +18,9 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by notandi on 08.11.14.
@@ -97,6 +100,14 @@ public class DistanceListActivity3 extends Activity implements OnItemClickListen
             coordinates.add(rCoordinate);
             listIndex++;
         }
+
+        Collections.sort(coordinates, new Comparator<GPSCoordinate>() {
+            @Override
+            public int compare(GPSCoordinate lhs, GPSCoordinate rhs) {
+                if (lhs.getDistance() > rhs.getDistance()) return 1;
+                return -1;
+            }
+        });
     }
 
     private void calculateArrayListDistance(){
@@ -125,7 +136,7 @@ public class DistanceListActivity3 extends Activity implements OnItemClickListen
 
         GPSCoordinate destinationGPSPoint = coordinates.get(position);
 
-        Intent i = new Intent(this, MapActivity.class);
+        Intent i = new Intent(this, MapActivity2.class);
         i.putExtra("drawPoly", false);
         i.putExtra("destination", (Serializable) destinationGPSPoint);
         startActivity(i);
