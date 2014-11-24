@@ -38,6 +38,7 @@ public class DistanceListActivity3 extends Activity implements OnItemClickListen
     double[][] list;
     GPSCoordinate rCoordinate;
     ArrayList<GPSCoordinate> coordinates;
+    LatLng presentLatLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +51,14 @@ public class DistanceListActivity3 extends Activity implements OnItemClickListen
         Log.d("Default", "GetList Run");
 
         presentGPSPoint = new GPSCoordinate(53.606779, 9.904833);
+
+        presentLatLng = new LatLng(presentGPSPoint.getLat(), presentGPSPoint.getLon());
         presentLat = presentGPSPoint.getLat();
         presentLon = presentGPSPoint.getLon();
         System.out.println("presentGPSPoint point is: " + presentLat + " and " + presentLon);
+
+
+
 
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.listpanel3, R.id.Address, coordinates) {
             @Override
@@ -60,25 +66,36 @@ public class DistanceListActivity3 extends Activity implements OnItemClickListen
                 View view = super.getView(position, cachedView, parent);
 
                 GPSCoordinate workingGPSPoint = coordinates.get(position);
+                LatLng workingLatLng = new LatLng(workingGPSPoint.getLat(), workingGPSPoint.getLon());
                 double workingLat = workingGPSPoint.getLat();
                 double workingLon = workingGPSPoint.getLon();
 
                 TextView gpsPoint = (TextView) view.findViewById(R.id.GPSPoints);
-                TextView Address = (TextView) view.findViewById(R.id.Address);
+                TextView address = (TextView) view.findViewById(R.id.Address);
+
 
                 gpsPoint.setText("GPS point: " + workingLat + ", " + workingLon);
 
+                nav = new Navigator(mMap, presentLatLng, workingLatLng);
+                nav.setDrawPolyLine(false);
+                nav.findDirections(false);
+
+                String distance = route.getTotalDistance2();
+                distance = distance.replaceAll("[^a-zA-Z0-9]", "");
+                address.setText(distance);
                 return view;
+
+
             }
         };
 
 
-        LatLng start = new LatLng(53.606779, 9.904833);
-        LatLng end = new LatLng(56.464416, 10.334164);
+        //LatLng start = new LatLng(53.606779, 9.904833);
+        //LatLng end = new LatLng(56.464416, 10.334164);
 
-        nav = new Navigator(mMap, start, end);
-        nav.setDrawPolyLine(false);
-        nav.findDirections(false);
+        //nav = new Navigator(mMap, start, end);
+        //nav.setDrawPolyLine(false);
+        //nav.findDirections(false);
 
         ListView listView = new ListView(this);
         listView.setOnItemClickListener(this);
@@ -87,8 +104,6 @@ public class DistanceListActivity3 extends Activity implements OnItemClickListen
         listView.setSelector(android.R.drawable.ic_notification_overlay);
         setContentView(listView);
     }
-
-
 
     private void populateArraylist() {
         int listIndex = 0;
