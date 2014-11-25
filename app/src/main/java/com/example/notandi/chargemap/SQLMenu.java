@@ -11,9 +11,11 @@ import android.widget.LinearLayout;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.IOException;
+
 public class SQLMenu extends Activity implements OnClickListener {
 
-    Button importEmbeddedGPSPoints, readMarkersToConsole, resetTableButton, sillyDoublesCheck;
+    Button importEmbeddedGPSPoints, readMarkersToConsole, resetTableButton, sillyDoublesCheck, getOneDistanceButton;
     DBConnect db;
 
     double[] latitude = {53.606779, 55.070049, 55.070049, 56.464416,
@@ -793,6 +795,11 @@ public class SQLMenu extends Activity implements OnClickListener {
         linLayout.addView(sillyDoublesCheck);
         sillyDoublesCheck.setText("sillyDoublesCheck");
         sillyDoublesCheck.setOnClickListener(this);
+
+        getOneDistanceButton = new Button(this);
+        linLayout.addView(getOneDistanceButton);
+        getOneDistanceButton.setText("getOneDistanceButton");
+        getOneDistanceButton.setOnClickListener(this);
     }
 
     @Override
@@ -810,6 +817,17 @@ public class SQLMenu extends Activity implements OnClickListener {
             // System.out.println("GPS Marker READ: " + gpsMarkersList[i]);
             // }
         }
+        if (v == getOneDistanceButton) {
+            try {
+                Distance dist = new Distance();
+                //Log.d("SQLMENU", dist.result);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
 /*
         if (v == sillyDoublesCheck) {
             double locLat = 53.606779;
