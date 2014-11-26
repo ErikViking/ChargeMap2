@@ -80,10 +80,31 @@ public class DistanceListActivity3 extends Activity implements OnItemClickListen
                 nav.setDrawPolyLine(false);
                 nav.findDirections(false);
 
-                String distance = route.getTotalDistance2();
-                distance = distance.replaceAll("[^a-zA-Z0-9]", "");
-                address.setText(distance);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                //String distance = route.getTotalDistance2();
+                //distance = distance.replaceAll("[^a-zA-Z0-9]", "");
+                //address.setText(distance);
                 return view;
+
+
+
+
+
 
 
             }
