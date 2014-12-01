@@ -59,7 +59,9 @@
         <activity
             android:name=".DistanceListActivity3"
             android:label="DistanceListActivity3"></activity>
-
+        <activity
+            android:name=".DistanceListActivity4"
+            android:label="DistanceListActivity4"></activity>
 
 
 

@@ -9,13 +9,11 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import java.io.IOException;
 
 public class SQLMenu extends Activity implements OnClickListener {
 
-    Button importEmbeddedGPSPoints, readMarkersToConsole, resetTableButton, sillyDoublesCheck, getOneDistanceButton;
+    Button importEmbeddedGPSPoints, readMarkersToConsole, getOneDistanceButton2, resetTableButton, sillyDoublesCheck, getOneDistanceButton;
     DBConnect db;
 
     double[] latitude = {53.606779, 55.070049, 55.070049, 56.464416,
@@ -800,6 +798,11 @@ public class SQLMenu extends Activity implements OnClickListener {
         linLayout.addView(getOneDistanceButton);
         getOneDistanceButton.setText("getOneDistanceButton");
         getOneDistanceButton.setOnClickListener(this);
+
+        getOneDistanceButton2 = new Button(this);
+        linLayout.addView(getOneDistanceButton2);
+        getOneDistanceButton2.setText("getOneDistanceButton2");
+        getOneDistanceButton2.setOnClickListener(this);
     }
 
     @Override
@@ -825,7 +828,12 @@ public class SQLMenu extends Activity implements OnClickListener {
                 e.printStackTrace();
             }
         }
+        if (v == getOneDistanceButton2) {
 
+            Distance2 dist = new Distance2();
+            //Log.d("SQLMENU", dist.result);
+
+        }
 
 
 /*
@@ -838,7 +846,7 @@ public class SQLMenu extends Activity implements OnClickListener {
            sillyDoublesCheck.setText("sillyDoublesCheck");
         }
         */
-   }
+    }
 
     public void printMarkersToConsole() {
         double[][] list = db.getList();

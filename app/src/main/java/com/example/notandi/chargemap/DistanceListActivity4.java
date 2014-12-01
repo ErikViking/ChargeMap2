@@ -22,8 +22,12 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +36,7 @@ import java.util.Comparator;
 /**
  * Created by notandi on 08.11.14.
  */
-public class DistanceListActivity3 extends Activity implements OnItemClickListener {
+public class DistanceListActivity4 extends Activity implements OnItemClickListener {
 
     Route route;
     private GoogleMap mMap;
@@ -62,10 +66,10 @@ public class DistanceListActivity3 extends Activity implements OnItemClickListen
         calculateArrayListDistance();
         Log.d("Default", "GetList Run");
         presentGPSPoint = new GPSCoordinate(53.606779, 9.904833);
-        presentLatLng = new LatLng(presentGPSPoint.getLat(), presentGPSPoint.getLon());
-        presentLat = presentGPSPoint.getLat();
-        presentLon = presentGPSPoint.getLon();
-        System.out.println("presentGPSPoint point is: " + presentLat + " and " + presentLon);
+        //presentLatLng = new LatLng(presentGPSPoint.getLat(), presentGPSPoint.getLon());
+        //presentLat = presentGPSPoint.getLat();
+        //presentLon = presentGPSPoint.getLon();
+        //System.out.println("presentGPSPoint point is: " + presentLat + " and " + presentLon);
 
         LatLng start = new LatLng(53.606779, 9.904833);
         LatLng end = new LatLng(56.464416, 10.334164);
@@ -99,34 +103,6 @@ public class DistanceListActivity3 extends Activity implements OnItemClickListen
                 HttpGet httpGet = new HttpGet(uri);
                 HttpClient httpClient = new DefaultHttpClient();
 
-                // The definition of our task class
-                class PostTask extends AsyncTask<String, Integer, String> {
-
-                    @Override
-                    protected String doInBackground(String... params) {
-                        String url = params[0];
-
-                        // Dummy code
-                        for (int i = 0; i <= 100; i += 5) {
-                            try {
-                                Thread.sleep(50);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            publishProgress(i);
-                        }
-                        return "All Done!";
-                    }
-
-
-                    @Override
-                    protected void onPostExecute(String result) {
-                        super.onPostExecute(result);
-
-                    }
-                }
-
-
                 //String distance = route.getTotalDistance2();
                 //distance = distance.replaceAll("[^a-zA-Z0-9]", "");
                 //address.setText(distance);
@@ -150,6 +126,50 @@ public class DistanceListActivity3 extends Activity implements OnItemClickListen
         Log.d("Default", "ListView set up");
         listView.setSelector(android.R.drawable.ic_notification_overlay);
         setContentView(listView);
+    }
+
+    // The definition of our task class
+    class AsTask extends AsyncTask<String, Integer, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            Log.d("Distance", "Async task started" );
+            String url = params[0];
+            Log.d("Distance2", url);
+            jsonObject = null;
+            String result = "";
+            HttpClient client = new DefaultHttpClient();
+            Log.d("Distance", "Client made" );
+            HttpPost request = new HttpPost(url);
+            HttpResponse response;
+            //String blehAgain;
+            try {
+                response = client.execute(request);
+                result = EntityUtils.toString(response.getEntity());
+                jsonObject = new JSONObject(result);
+                //JSONArray routes = jsonObject.getJSONArray("routes");
+                JSONArray routes = jsonObject.getJSONArray("routes");
+                JSONObject obj = routes.getJSONObject(0);
+                //JSONArray legs = obj.getJSONArray("legs");
+                JSONArray leg = obj.getJSONArray("legs");
+                JSONObject obj2 = leg.getJSONObject(0);
+                JSONObject text = obj2.getJSONObject("distance");
+                result2 = text.getString("text");
+                Log.d("Default", "3333333TotalDistance is >" + result2);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            //String bleAgain;
+            return result2;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            address.setText(result);
+            Log.d("Default", "4444444TotalDistance is >" + result);
+        }
     }
 
     private void populateArraylist() {

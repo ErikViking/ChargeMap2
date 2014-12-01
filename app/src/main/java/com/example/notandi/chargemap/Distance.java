@@ -78,7 +78,7 @@ public class Distance {
                     JSONObject text = obj2.getJSONObject("distance");
                     String blehAgain = text.getString("text");
                     Log.d("Default", "3333333TotalDistance is >" + blehAgain);
-                    this.result2 = blehAgain.replaceAll("[^a-zA-Z0-9]", "");
+                    //this.result2 = blehAgain.replaceAll("[^a-zA-Z0-9]", "");
                     //JSONObject text = distance.getJSONObject("legs");
                     //String blehAgain = text.getString("text");
                     //Log.d("Default", "3333333TotalDistance is >" + blehAgain);
