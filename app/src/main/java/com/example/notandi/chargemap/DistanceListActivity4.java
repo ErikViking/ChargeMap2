@@ -40,9 +40,11 @@ public class DistanceListActivity4 extends Activity implements OnItemClickListen
   private ArrayList<GPSCoordinate> coordinates;
   double presentLat = 53.606779;
   double presentLon = 9.904833;
+  private String[] resultater;
 
+  LatLng start = new LatLng(presentLat, presentLon);
 
-    @Override
+  @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("Default", "OnCreate run");
@@ -52,6 +54,7 @@ public class DistanceListActivity4 extends Activity implements OnItemClickListen
       // populateArraylist();
       int listIndex = 0;
       coordinates = new ArrayList<GPSCoordinate>();
+      resultater = new String[list.length];
 
       for (int i = 0; i < list.length; i++) {
           //Log.d("Default", "The list is: " + list[listIndex][0] + ", " + list[listIndex][1]);
@@ -97,23 +100,30 @@ public class DistanceListActivity4 extends Activity implements OnItemClickListen
                 View view = super.getView(position, cachedView, parent);
                 GPSCoordinate workingGPSPoint = coordinates.get(position);
 
-              LatLng start = new LatLng(presentLat, presentLon);
-              LatLng end = new LatLng( workingGPSPoint.getLat(), workingGPSPoint.getLon());
-              String mode = "driving";
-              boolean alternatives = false;
-              String uri = "http://maps.googleapis.com/maps/api/directions/json?"
-                  + "origin=" + start.latitude + "," + start.longitude
-                  + "&destination=" + end.latitude + "," + end.longitude
-                  + "&sensor=false&units=metric&mode=" + mode + "&alternatives=" + String.valueOf(alternatives);
+              TextView gpsPoint = (TextView) view.findViewById(R.id.GPSPoints);
+              gpsPoint.setText("GPS point: " + start);
 
-                TextView gpsPoint = (TextView) view.findViewById(R.id.GPSPoints);
-                gpsPoint.setText("GPS point: " + start);
+              TextView address = (TextView) view.findViewById(R.id.Address);
 
-                TextView address = (TextView) view.findViewById(R.id.Address);
+              String gammeltResultat = resultater[position];
+
+              if (gammeltResultat!=null) {
+                address.setText(gammeltResultat);
+              } else {
+                LatLng end = new LatLng(workingGPSPoint.getLat(), workingGPSPoint.getLon());
+                String mode = "driving";
+                boolean alternatives = false;
+                String uri = "http://maps.googleapis.com/maps/api/directions/json?"
+                    + "origin=" + start.latitude + "," + start.longitude
+                    + "&destination=" + end.latitude + "," + end.longitude
+                    + "&sensor=false&units=metric&mode=" + mode + "&alternatives=" + String.valueOf(alternatives);
+
                 AsTask as = new AsTask();
+                as.position = position;
                 as.uri = uri;
                 as.address = address;
                 as.execute();
+              }
 
                 //String distance = route.getTotalDistance2();
                 //distance = distance.replaceAll("[^a-zA-Z0-9]", "");
@@ -146,6 +156,7 @@ public class DistanceListActivity4 extends Activity implements OnItemClickListen
     class AsTask extends AsyncTask<String, Integer, String> {
       public TextView address;
       public String uri;
+      public int position;
 
       @Override
         protected String doInBackground(String... params) {
@@ -172,6 +183,7 @@ public class DistanceListActivity4 extends Activity implements OnItemClickListen
                 JSONObject text = obj2.getJSONObject("distance");
                 String result2 = text.getString("text");
                  Log.d("Default", "3333333TotalDistance is >" + result2);
+                resultater[position] = result2;
                 return result2;
             } catch (IOException e) {
                 e.printStackTrace();
