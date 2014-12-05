@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,7 @@ public class DistanceListActivity3 extends Activity implements OnItemClickListen
     String result2;
     Double distance;
     JSONObject jsonObject;
+    TextView address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,12 +87,12 @@ public class DistanceListActivity3 extends Activity implements OnItemClickListen
                 double workingLat = workingGPSPoint.getLat();
                 double workingLon = workingGPSPoint.getLon();
                 TextView gpsPoint = (TextView) view.findViewById(R.id.GPSPoints);
-                TextView address = (TextView) view.findViewById(R.id.Address);
+                address = (TextView) view.findViewById(R.id.Address);
                 gpsPoint.setText("GPS point: " + workingLat + ", " + workingLon);
                 //nav = new Navigator(mMap, presentLatLng, workingLatLng);
                 //nav.setDrawPolyLine(false);
                 //nav.findDirections(false);
-
+/*
                 HttpClient client = new DefaultHttpClient();
                 Log.d("Distance", "Client made");
                 HttpPost request = new HttpPost(uri);
@@ -98,33 +100,20 @@ public class DistanceListActivity3 extends Activity implements OnItemClickListen
                 String result = "";
                 HttpGet httpGet = new HttpGet(uri);
                 HttpClient httpClient = new DefaultHttpClient();
-
-                // The definition of our task class
-                class PostTask extends AsyncTask<String, Integer, String> {
-
+*/
+                class AsyncTask1 extends AsyncTask {
                     @Override
-                    protected String doInBackground(String... params) {
-                        String url = params[0];
-
-                        // Dummy code
-                        for (int i = 0; i <= 100; i += 5) {
-                            try {
-                                Thread.sleep(50);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            publishProgress(i);
-                        }
-                        return "All Done!";
+                    protected Object doInBackground(Object... arg0) {
+                        SystemClock.sleep(10000);
+                        return null;
                     }
 
-
                     @Override
-                    protected void onPostExecute(String result) {
-                        super.onPostExecute(result);
-
+                    protected void onPostExecute(Object result) {
+                        address.setText("færdig!");
                     }
                 }
+                new AsyncTask1().execute();
 
 
                 //String distance = route.getTotalDistance2();

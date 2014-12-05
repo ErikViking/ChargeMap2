@@ -56,6 +56,7 @@ public class DistanceListActivity4 extends Activity implements OnItemClickListen
     String result2;
     Double distance;
     JSONObject jsonObject;
+    TextView address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +90,7 @@ public class DistanceListActivity4 extends Activity implements OnItemClickListen
                 double workingLat = workingGPSPoint.getLat();
                 double workingLon = workingGPSPoint.getLon();
                 TextView gpsPoint = (TextView) view.findViewById(R.id.GPSPoints);
-                TextView address = (TextView) view.findViewById(R.id.Address);
+                address = (TextView) view.findViewById(R.id.Address);
                 gpsPoint.setText("GPS point: " + workingLat + ", " + workingLon);
                 //nav = new Navigator(mMap, presentLatLng, workingLatLng);
                 //nav.setDrawPolyLine(false);
@@ -102,6 +103,16 @@ public class DistanceListActivity4 extends Activity implements OnItemClickListen
                 String result = "";
                 HttpGet httpGet = new HttpGet(uri);
                 HttpClient httpClient = new DefaultHttpClient();
+
+
+
+                new AsTask().execute();
+
+
+
+
+
+
 
                 //String distance = route.getTotalDistance2();
                 //distance = distance.replaceAll("[^a-zA-Z0-9]", "");
@@ -128,12 +139,14 @@ public class DistanceListActivity4 extends Activity implements OnItemClickListen
         setContentView(listView);
     }
 
+
+
     // The definition of our task class
     class AsTask extends AsyncTask<String, Integer, String> {
         @Override
         protected String doInBackground(String... params) {
-            Log.d("Distance", "Async task started" );
-            String url = params[0];
+            Log.d("Distance2", "Async task started" );
+            String url = uri;
             Log.d("Distance2", url);
             jsonObject = null;
             String result = "";

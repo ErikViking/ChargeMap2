@@ -79,6 +79,7 @@ public class Distance2 {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             Log.d("Default", "4444444TotalDistance is >" + result2);
+
         }
     }
 
