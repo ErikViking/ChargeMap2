@@ -1,20 +1,25 @@
 package com.example.notandi.chargemap;
 
+import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.TextView;
 
 import com.example.notandi.chargemap.Navigator.OnPathSetListener;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class MapActivity2 extends FragmentActivity implements LocationListener, OnPathSetListener {
+public class MapActivity2 extends FragmentActivity implements LocationListener, Navigator.OnPathSetListener, GoogleMap.OnMarkerClickListener {
     Navigator nav;
     Route route;
     TextView txt;
@@ -22,6 +27,8 @@ public class MapActivity2 extends FragmentActivity implements LocationListener, 
     private DBConnect db;
     private GPSCoordinate rCoordinate;
     private boolean drawPolyLine;
+    LocationManager locationManager;
+    Location location;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,10 +38,10 @@ public class MapActivity2 extends FragmentActivity implements LocationListener, 
         drawPolyLine = true;
 
         setUpMapIfNeeded();
-        /*
+
         //Location
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Location location = locationManager.getLastKnownLocation("network");
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        location = locationManager.getLastKnownLocation("network");
         Log.d("Default", "Location = " + location);
         if (location != null) {
             Log.d("Default", "Location != null and if statement activated");
@@ -43,14 +50,14 @@ public class MapActivity2 extends FragmentActivity implements LocationListener, 
 
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(new LatLng(location.getLatitude(), location.getLongitude()))      // Sets the center of the map to location user
-                    .zoom(17)                   // Sets the zoom
-                    .bearing(90)                // Sets the orientation of the camera to east
+                    .zoom(10)                   // Sets the zoom
+                    .bearing(0)                // Sets the orientation of the camera to east
                     .tilt(40)                   // Sets the tilt of the camera to 30 degrees
                     .build();                   // Creates a CameraPosition from the builder
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 6000, 0, this);
-        */
+
     }
 
     @Override
@@ -70,13 +77,13 @@ public class MapActivity2 extends FragmentActivity implements LocationListener, 
         // Initialize map options. For example:
         // mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         //double[][] markersList = db.getList();
-        //printMarkersToConsole();
+        printMarkersToConsole();
 
-        rCoordinate  = (GPSCoordinate) getIntent().getSerializableExtra("destination");
+        //rCoordinate  = (GPSCoordinate) getIntent().getSerializableExtra("destination");
 
-        LatLng intentStart = new LatLng(53.606779, 9.904833);
-        LatLng intentEnd = new LatLng(rCoordinate.getLat(), rCoordinate.getLon());
-            Boolean dr = getIntent().getBooleanExtra("drawPoly", true);
+        //LatLng intentStart = new LatLng(53.606779, 9.904833);
+        //LatLng intentEnd = new LatLng(rCoordinate.getLat(), rCoordinate.getLon());
+        //   Boolean dr = getIntent().getBooleanExtra("drawPoly", true);
 
         //nav = new Navigator(mMap, start, end);
         //nav.findDirections(true);
@@ -88,20 +95,40 @@ public class MapActivity2 extends FragmentActivity implements LocationListener, 
         //LatLng start = new LatLng(30.022669, 31.206686);
 
         //30.022669, 31.206686 and 30.026041, 31.198350
-        LatLng start = new LatLng(53.606779, 9.904833);
-        LatLng end = new LatLng(56.464416, 10.334164);
+        //LatLng start = new LatLng(53.606779, 9.904833);
+        //LatLng end = new LatLng(56.464416, 10.334164);
         //LatLng end = new LatLng(rCoordinate.getLat(), rCoordinate.getLon());
-        nav = new Navigator(mMap, start, end);
+        //nav = new Navigator(mMap, start, end);
 
-        nav.setDrawPolyLine(true);
-
+        //nav.setDrawPolyLine(true);
+/*
         Log.d("MapActivity", "Boolean dr is> " + dr);
 
         if(!dr){
             nav.setDrawPolyLine(false);
             Log.d("MapActivity", "If draw set to false > " + dr);
         }
+*/
 
+    }
+
+    public void printMarkersToConsole() {
+        double[][] list = db.getList();
+        Log.d("Default", "printMarkersToConsole() is started");
+        int listIndex = 0;
+        for (int i = 0; i < list.length; i++) {
+            //Log.d("Default", "The list is: " + list[listIndex][0] + ", " + list[listIndex][1]);
+            addMarker(list[listIndex][0], list[listIndex][1]);
+            listIndex++;
+        }
+    }
+
+    private void runDirections(LatLng destination){
+
+        LatLng start = new LatLng(53.606779, 9.904833);
+
+        nav = new Navigator(mMap, start, destination);
+        nav.setDrawPolyLine(true);
         nav.findDirections(false);  //False just means it doesn't show alternative route (I think TM)
         //nav.findDirections(true);
         nav.setOnPathSetListener(new OnPathSetListener() {
@@ -122,23 +149,17 @@ public class MapActivity2 extends FragmentActivity implements LocationListener, 
                 System.out.println("GetDistance2 is here :"+route.getTotalDistance2().toString());
             }
         });
-    }
 
-    public void printMarkersToConsole() {
-        double[][] list = db.getList();
-        Log.d("Default", "printMarkersToConsole() is started");
-        int listIndex = 0;
-        for (int i = 0; i < list.length; i++) {
-            //Log.d("Default", "The list is: " + list[listIndex][0] + ", " + list[listIndex][1]);
-            addMarker(list[listIndex][0], list[listIndex][1]);
-            listIndex++;
-        }
+
     }
 
     private void addMarker(double lat, double lon) {
+
         mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(lat, lon))
                 .title("Hello world"));
+
+        mMap.setOnMarkerClickListener(this);
     }
 
     @Override
@@ -167,6 +188,27 @@ public class MapActivity2 extends FragmentActivity implements LocationListener, 
     @Override
     public void onPathSetListener(Directions directions) {
 
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        //location = locationManager.getLastKnownLocation("network");
+        LatLng workLatLng= marker.getPosition();
+
+        Log.d("MapActivity1", "Marker Position is " + workLatLng);
+
+
+        //LatLng start = location.get
+
+
+        runDirections(workLatLng);
+        //mMap.clear();
+        //setUpMapIfNeeded();
+
+        //nav.setDrawPolyLine(true);
+        //nav = new Navigator(mMap, start, workLatLng);
+        //nav.findDirections(false);
+        return true;
     }
 
 	/*

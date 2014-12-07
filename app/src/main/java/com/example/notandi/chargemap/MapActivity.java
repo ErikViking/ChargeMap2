@@ -39,6 +39,8 @@ public class MapActivity extends FragmentActivity implements LocationListener, N
 
         setUpMapIfNeeded();
 
+        mMap.setMyLocationEnabled(true);
+
         //Location
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         location = locationManager.getLastKnownLocation("network");
@@ -79,11 +81,11 @@ public class MapActivity extends FragmentActivity implements LocationListener, N
         //double[][] markersList = db.getList();
         printMarkersToConsole();
 
-        rCoordinate  = (GPSCoordinate) getIntent().getSerializableExtra("destination");
+        //rCoordinate  = (GPSCoordinate) getIntent().getSerializableExtra("destination");
 
         //LatLng intentStart = new LatLng(53.606779, 9.904833);
         //LatLng intentEnd = new LatLng(rCoordinate.getLat(), rCoordinate.getLon());
-         //   Boolean dr = getIntent().getBooleanExtra("drawPoly", true);
+        //   Boolean dr = getIntent().getBooleanExtra("drawPoly", true);
 
         //nav = new Navigator(mMap, start, end);
         //nav.findDirections(true);
@@ -95,12 +97,12 @@ public class MapActivity extends FragmentActivity implements LocationListener, N
         //LatLng start = new LatLng(30.022669, 31.206686);
 
         //30.022669, 31.206686 and 30.026041, 31.198350
-        LatLng start = new LatLng(53.606779, 9.904833);
-        LatLng end = new LatLng(56.464416, 10.334164);
+        //LatLng start = new LatLng(53.606779, 9.904833);
+        //LatLng end = new LatLng(56.464416, 10.334164);
         //LatLng end = new LatLng(rCoordinate.getLat(), rCoordinate.getLon());
-        nav = new Navigator(mMap, start, end);
+        //nav = new Navigator(mMap, start, end);
 
-        nav.setDrawPolyLine(true);
+        //nav.setDrawPolyLine(true);
 /*
         Log.d("MapActivity", "Boolean dr is> " + dr);
 
@@ -109,6 +111,26 @@ public class MapActivity extends FragmentActivity implements LocationListener, N
             Log.d("MapActivity", "If draw set to false > " + dr);
         }
 */
+
+    }
+
+    public void printMarkersToConsole() {
+        double[][] list = db.getList();
+        Log.d("Default", "printMarkersToConsole() is started");
+        int listIndex = 0;
+        for (int i = 0; i < list.length; i++) {
+            //Log.d("Default", "The list is: " + list[listIndex][0] + ", " + list[listIndex][1]);
+            addMarker(list[listIndex][0], list[listIndex][1]);
+            listIndex++;
+        }
+    }
+
+    private void runDirections(LatLng destination){
+
+        LatLng start = new LatLng(53.606779, 9.904833);
+
+        nav = new Navigator(mMap, start, destination);
+        nav.setDrawPolyLine(true);
         nav.findDirections(false);  //False just means it doesn't show alternative route (I think TM)
         //nav.findDirections(true);
         nav.setOnPathSetListener(new OnPathSetListener() {
@@ -129,28 +151,32 @@ public class MapActivity extends FragmentActivity implements LocationListener, N
                 System.out.println("GetDistance2 is here :"+route.getTotalDistance2().toString());
             }
         });
-    }
 
-    public void printMarkersToConsole() {
-        double[][] list = db.getList();
-        Log.d("Default", "printMarkersToConsole() is started");
-        int listIndex = 0;
-        for (int i = 0; i < list.length; i++) {
-            //Log.d("Default", "The list is: " + list[listIndex][0] + ", " + list[listIndex][1]);
-            addMarker(list[listIndex][0], list[listIndex][1]);
-            listIndex++;
-        }
+
     }
 
     private void addMarker(double lat, double lon) {
+
         mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(lat, lon))
-                .title("Hello world"));
+                .title("ChargeStation"));
+        mMap.setOnMarkerClickListener(this);
     }
+
+    private void addMyLocationMarker(double lat, double lon) {
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(lat, lon))
+                .title("You are here"));
+    }
+
+
 
     @Override
     public void onLocationChanged(Location location) {
         // TODO Auto-generated method stub
+
+
+
     }
 
     @Override
@@ -179,8 +205,22 @@ public class MapActivity extends FragmentActivity implements LocationListener, N
     @Override
     public boolean onMarkerClick(Marker marker) {
         //location = locationManager.getLastKnownLocation("network");
+        LatLng workLatLng= marker.getPosition();
 
-        return false;
+        Log.d("MapActivity1", "Marker Position is " + workLatLng);
+
+
+        //LatLng start = location.get
+
+
+        runDirections(workLatLng);
+        //mMap.clear();
+        //setUpMapIfNeeded();
+
+        //nav.setDrawPolyLine(true);
+        //nav = new Navigator(mMap, start, workLatLng);
+        //nav.findDirections(false);
+        return true;
     }
 
 	/*
