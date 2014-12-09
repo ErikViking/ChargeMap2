@@ -126,8 +126,8 @@ public class MapActivity extends FragmentActivity implements LocationListener, N
     }
 
     private void runDirections(LatLng destination){
-
-        LatLng start = new LatLng(53.606779, 9.904833);
+        location = locationManager.getLastKnownLocation("network");
+        LatLng start = new LatLng(location.getLatitude(),location.getLongitude());
 
         nav = new Navigator(mMap, start, destination);
         nav.setDrawPolyLine(true);
