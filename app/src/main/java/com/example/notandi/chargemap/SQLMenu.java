@@ -1,7 +1,10 @@
 package com.example.notandi.chargemap;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -771,6 +774,19 @@ public class SQLMenu extends Activity implements OnClickListener {
         LayoutParams linLayoutParam = new LayoutParams(
                 LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         setContentView(linLayout, linLayoutParam);
+
+        //Shared Preferences
+        Log.d("Default", "Share Preference started");
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean color = false;
+        color = preferences.getBoolean("listviewcolor ", color.getBoolean(""));
+        Log.d("Default", "Preference for Color is: " + color);
+        if (color) {
+            linLayout.setBackgroundColor(Color.parseColor("#00000F"));
+        }
+        else {
+            linLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        }
 
         db = new DBConnect(this);
 

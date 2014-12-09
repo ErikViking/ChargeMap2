@@ -2,8 +2,10 @@ package com.example.notandi.chargemap;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +44,7 @@ public class DistanceListActivity4 extends Activity implements OnItemClickListen
   double presentLon = 9.904833;
   private String[] resultater;
 
+
   LatLng start = new LatLng(presentLat, presentLon);
 
   @Override
@@ -50,6 +53,7 @@ public class DistanceListActivity4 extends Activity implements OnItemClickListen
         Log.d("Default", "OnCreate run");
       DBConnect db = new DBConnect(this);
       double[][] list = db.getList();
+
 
       // populateArraylist();
       int listIndex = 0;
@@ -100,7 +104,9 @@ public class DistanceListActivity4 extends Activity implements OnItemClickListen
                 View view = super.getView(position, cachedView, parent);
                 GPSCoordinate workingGPSPoint = coordinates.get(position);
 
+
               TextView gpsPoint = (TextView) view.findViewById(R.id.GPSPoints);
+
               gpsPoint.setText("GPS point: " + start);
 
               TextView address = (TextView) view.findViewById(R.id.Address);

@@ -5,10 +5,10 @@
     android:layout_height="match_parent">
 
     <CheckBoxPreference
-        android:key="wordsFromDR"
-        android:title="Fetch words from DR"
-        android:summaryOn="Toggle off to use locally cached words"
-        android:summaryOff="Toggle on to use words from DR"
+        android:key="listviewcolor"
+        android:title="Color for ListView"
+        android:summaryOn="Toggle to control color for ListView"
+        android:summaryOff="Toggle to control color for ListView"
         android:defaultValue="false" />
 
 

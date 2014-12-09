@@ -17,10 +17,10 @@ public class SplashActivity extends Activity implements Runnable {
         super.onCreate(savedInstanceState);
         Log.d("Splash_akt", "aktiviteten blev startet!");
         ImageView iv = new ImageView(this);
-        iv.setImageResource(R.drawable.logo);
+        iv.setImageResource(R.drawable.arrows);
         setContentView(iv);
         if (savedInstanceState == null) {
-            handler.postDelayed(this, 100);
+            handler.postDelayed(this, 1000);
         }
         presentActivity = this;
     }
