@@ -24,7 +24,7 @@ public class Directions {
         try {
             JSONObject json = new JSONObject(directions);
 
-            System.out.println(json.toString(2));
+            //System.out.println(json.toString(2));
             if (!json.isNull("routes")) {
                 JSONArray route = json.getJSONArray("routes");
 

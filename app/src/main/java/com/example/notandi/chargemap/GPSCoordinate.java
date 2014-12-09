@@ -11,6 +11,7 @@ public class GPSCoordinate implements Serializable {
 
     public double lat;
     public double lon;
+    public double distance;
     //public double clearlineDist;
     //public double
 
@@ -19,7 +20,6 @@ public class GPSCoordinate implements Serializable {
 
         this.lat = lat;
         this.lon = lon;
-
     }
 
     public double getLat() {
@@ -29,4 +29,13 @@ public class GPSCoordinate implements Serializable {
     public double getLon() {
         return lon;
     }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
 }

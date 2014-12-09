@@ -71,7 +71,6 @@ public class DBConnect {
                 listIndex++;
             } while (cursor2.moveToNext());
         }
-
         Log.d("Default", "ListIndex is: " + listIndex);
         close();
         return list;

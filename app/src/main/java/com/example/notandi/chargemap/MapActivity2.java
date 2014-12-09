@@ -19,7 +19,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class MapActivity extends FragmentActivity implements LocationListener, Navigator.OnPathSetListener, GoogleMap.OnMarkerClickListener {
+public class MapActivity2 extends FragmentActivity implements LocationListener, Navigator.OnPathSetListener, GoogleMap.OnMarkerClickListener {
     Navigator nav;
     Route route;
     TextView txt;
@@ -38,8 +38,6 @@ public class MapActivity extends FragmentActivity implements LocationListener, N
         drawPolyLine = true;
 
         setUpMapIfNeeded();
-
-        mMap.setMyLocationEnabled(true);
 
         //Location
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -159,24 +157,14 @@ public class MapActivity extends FragmentActivity implements LocationListener, N
 
         mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(lat, lon))
-                .title("ChargeStation"));
+                .title("Hello world"));
+
         mMap.setOnMarkerClickListener(this);
     }
-
-    private void addMyLocationMarker(double lat, double lon) {
-        mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(lat, lon))
-                .title("You are here"));
-    }
-
-
 
     @Override
     public void onLocationChanged(Location location) {
         // TODO Auto-generated method stub
-
-
-
     }
 
     @Override

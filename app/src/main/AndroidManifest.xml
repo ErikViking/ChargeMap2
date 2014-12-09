@@ -53,6 +53,17 @@
         <activity
             android:name=".DistanceListActivity"
             android:label="DistanceListActivity"></activity>
+        <activity
+            android:name=".DistanceListActivity2"
+            android:label="DistanceListActivity2"></activity>
+        <activity
+            android:name=".DistanceListActivity3"
+            android:label="DistanceListActivity3"></activity>
+        <activity
+            android:name=".DistanceListActivity4"
+            android:label="DistanceListActivity4"></activity>
+
+
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
@@ -60,5 +71,8 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+
+
     </application>
 </manifest>

@@ -34,9 +34,6 @@
             android:layout_height="wrap_content"
             android:text="Distance"
             android:textSize="12sp" />
-
-
-
     </TableLayout>
 
 

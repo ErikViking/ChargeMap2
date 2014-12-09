@@ -20,7 +20,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + " double, " + LONGITUDE
             + " double);";
     //public static final String Distance = "longitude";
-    static final int DATABASE_VERSION = 3;
+    static final int DATABASE_VERSION = 4;
 
     public MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

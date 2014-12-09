@@ -42,8 +42,8 @@ public class MainActivity extends FragmentActivity implements OnMyLocationChange
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
         LatLng latLng = new LatLng(latitude, longitude);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        //googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        //googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
         tvLocation.setText("Latitude:" + latitude + ", Longitude:" + longitude);
     }
 

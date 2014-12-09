@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <CheckBoxPreference
+        android:key="wordsFromDR"
+        android:title="Fetch words from DR"
+        android:summaryOn="Toggle off to use locally cached words"
+        android:summaryOff="Toggle on to use words from DR"
+        android:defaultValue="false" />
+
+
+</PreferenceScreen>
