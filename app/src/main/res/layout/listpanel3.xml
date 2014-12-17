@@ -4,9 +4,9 @@
     android:layout_height="wrap_content">
 
     <TableLayout
-        android:layout_width="0dip"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="left|center_vertical"
+        android:layout_gravity="center"
         android:layout_marginLeft="6dip"
         android:layout_weight="1">
 
@@ -14,11 +14,10 @@
             android:id="@+id/Address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:shadowColor="#00ffff"
             android:shadowDx="5"
             android:shadowDy="3"
             android:shadowRadius="5"
-            android:textColor="#ffffff"
+            android:textColor="#0099cc"
             android:textSize="20sp" />
 
         <TextView

@@ -1,11 +1,12 @@
 package com.example.notandi.chargemap;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +17,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
@@ -39,45 +38,67 @@ import java.util.Comparator;
  * Created by notandi on 08.11.14.
  */
 public class DistanceListActivity4 extends Activity implements OnItemClickListener {
-  private ArrayList<GPSCoordinate> coordinates;
-  double presentLat = 53.606779;
-  double presentLon = 9.904833;
-  private String[] resultater;
+    LatLng start;
+    private ArrayList<GPSCoordinate> coordinates;
+    //double presentLat = 53.606779;
+    //double presentLon = 9.904833;
+    private String[] resultater;
+    //LatLng start = new LatLng(presentLat, presentLon);
 
-
-  LatLng start = new LatLng(presentLat, presentLon);
-
-  @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("Default", "OnCreate run");
-      DBConnect db = new DBConnect(this);
-      double[][] list = db.getList();
+        DBConnect db = new DBConnect(this);
+        double[][] list = db.getList();
 
 
-      // populateArraylist();
-      int listIndex = 0;
-      coordinates = new ArrayList<GPSCoordinate>();
-      resultater = new String[list.length];
-
-      for (int i = 0; i < list.length; i++) {
-          //Log.d("Default", "The list is: " + list[listIndex][0] + ", " + list[listIndex][1]);
-        GPSCoordinate rCoordinate = new GPSCoordinate(list[listIndex][0], list[listIndex][1]);
-        // TODO find korrekt distance?
-        rCoordinate.setDistance(Math.sqrt(rCoordinate.getLat() - presentLat) * (rCoordinate.getLat() - presentLat) + (rCoordinate.getLon() - presentLon) * (rCoordinate.getLon() - presentLon));
-          coordinates.add(rCoordinate);
-          listIndex++;
-      }
-
-      Collections.sort(coordinates, new Comparator<GPSCoordinate>() {
-          @Override
-          public int compare(GPSCoordinate lhs, GPSCoordinate rhs) {
-              if (lhs.getDistance() > rhs.getDistance()) return 1;
-              return -1;
-          }
-      });
+        // populateArraylist();
+        int listIndex = 0;
+        coordinates = new ArrayList<GPSCoordinate>();
+        resultater = new String[list.length];
 
 
+        //Find my location
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Location location = locationManager.getLastKnownLocation("network");
+        start = new LatLng(location.getLatitude(), location.getLongitude());
+
+
+        //Populate list of bespoke Coordinate objects
+        for (int i = 0; i < list.length; i++) {
+            //Log.d("Default", "The list is: " + list[listIndex][0] + ", " + list[listIndex][1]);
+            GPSCoordinate rCoordinate = new GPSCoordinate(list[listIndex][0], list[listIndex][1]);
+
+            double roughDistanceLat = (location.getLatitude() - list[listIndex][0]);
+            double roughDistanceLon = (location.getLongitude() - list[listIndex][1]);
+
+            rCoordinate.setDistance(roughDistanceLat + roughDistanceLon);
+            //rCoordinate.setDistance(Math.sqrt(rCoordinate.getLat() - location.getLatitude()) * (rCoordinate.getLat() - location.getLatitude()) + (rCoordinate.getLon() - location.getLongitude()) * (rCoordinate.getLon() - location.getLongitude()));
+            coordinates.add(rCoordinate);
+            listIndex++;
+        }
+
+
+        Collections.sort(coordinates, new Comparator<GPSCoordinate>() {
+            @Override
+            public int compare(GPSCoordinate lhs, GPSCoordinate rhs) {
+                Log.d("Default", "Compare Run");
+                if (lhs.getDistance() > rhs.getDistance()) return 1;
+                return -1;
+            }
+        });
+
+        Collections.sort(coordinates, new Comparator<GPSCoordinate>() {
+            @Override
+            public int compare(GPSCoordinate lhs, GPSCoordinate rhs) {
+                Log.d("Default", "Compare Run");
+                if (lhs.getDistance() > rhs.getDistance()) return 1;
+                return -1;
+            }
+        });
+
+        /*
       /// calculateArrayListDistance();
       for (int i = 0; i < coordinates.size(); i++) {
           GPSCoordinate workingGPSPoint = coordinates.get(i);
@@ -93,6 +114,7 @@ public class DistanceListActivity4 extends Activity implements OnItemClickListen
           Log.d("Default", "CalculateArray: " + distanceLat + ", " + distanceLng + ", " + distance1);
       }
       ///
+        */
 
         Log.d("Default", "GetList Run");
         //System.out.println("presentGPSPoint point is: " + presentLat + " and " + presentLon);
@@ -103,43 +125,40 @@ public class DistanceListActivity4 extends Activity implements OnItemClickListen
             public View getView(int position, View cachedView, ViewGroup parent) {
                 View view = super.getView(position, cachedView, parent);
                 GPSCoordinate workingGPSPoint = coordinates.get(position);
+                TextView gpsPoint = (TextView) view.findViewById(R.id.GPSPoints);
+                //gpsPoint.setText("GPS point: " + start);
+                TextView address = (TextView) view.findViewById(R.id.Address);
+                //TextView distance = (TextView) view.findViewById(R.id.Distance);
+                String gammeltResultat = resultater[position];
 
+                if (gammeltResultat != null) {
+                    address.setText(gammeltResultat);
+                } else {
+                    LatLng end = new LatLng(workingGPSPoint.getLat(), workingGPSPoint.getLon());
+                    String mode = "driving";
+                    boolean alternatives = false;
+                    String uri = "http://maps.googleapis.com/maps/api/directions/json?"
+                            + "origin=" + start.latitude + "," + start.longitude
+                            + "&destination=" + end.latitude + "," + end.longitude
+                            + "&sensor=false&units=metric&mode=" + mode + "&alternatives=" + String.valueOf(alternatives);
 
-              TextView gpsPoint = (TextView) view.findViewById(R.id.GPSPoints);
+                    AsTask as = new AsTask();
+                    as.position = position;
+                    as.uri = uri;
+                    as.address = address;
 
-              gpsPoint.setText("GPS point: " + start);
+                    as.execute();
 
-              TextView address = (TextView) view.findViewById(R.id.Address);
-
-              String gammeltResultat = resultater[position];
-
-              if (gammeltResultat!=null) {
-                address.setText(gammeltResultat);
-              } else {
-                LatLng end = new LatLng(workingGPSPoint.getLat(), workingGPSPoint.getLon());
-                String mode = "driving";
-                boolean alternatives = false;
-                String uri = "http://maps.googleapis.com/maps/api/directions/json?"
-                    + "origin=" + start.latitude + "," + start.longitude
-                    + "&destination=" + end.latitude + "," + end.longitude
-                    + "&sensor=false&units=metric&mode=" + mode + "&alternatives=" + String.valueOf(alternatives);
-
-                AsTask as = new AsTask();
-                as.position = position;
-                as.uri = uri;
-                as.address = address;
-                as.execute();
-              }
+                    //distance.setText(streetAddress);
+                }
 
                 //String distance = route.getTotalDistance2();
                 //distance = distance.replaceAll("[^a-zA-Z0-9]", "");
                 //address.setText(distance);
                 return view;
 
-
             }
         };
-
 
         //LatLng start = new LatLng(53.606779, 9.904833);
         //LatLng end = new LatLng(56.464416, 10.334164);
@@ -156,27 +175,36 @@ public class DistanceListActivity4 extends Activity implements OnItemClickListen
         setContentView(listView);
     }
 
-
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(this, "Klik på " + position, Toast.LENGTH_SHORT).show();
+        GPSCoordinate destinationGPSPoint = coordinates.get(position);
+        Intent i = new Intent(this, MapActivity2.class);
+        i.putExtra("drawPoly", false);
+        i.putExtra("destination", (Serializable) destinationGPSPoint);
+        startActivity(i);
+    }
 
     // The definition of our task class
     class AsTask extends AsyncTask<String, Integer, String> {
-      public TextView address;
-      public String uri;
-      public int position;
+        public TextView address;
+        public String uri;
+        public int position;
+        public TextView distance;
 
-      @Override
+        @Override
         protected String doInBackground(String... params) {
-            Log.d("Distance2", "Async task started" );
+            Log.d("Distance2", "Async task started");
             String url = uri;
             Log.d("Distance2", url);
-        JSONObject jsonObject = null;
+            JSONObject jsonObject = null;
             String result = "";
             HttpClient client = new DefaultHttpClient();
-            Log.d("Distance", "Client made" );
+            Log.d("Distance", "Client made");
             HttpPost request = new HttpPost(url);
             HttpResponse response;
             //String blehAgain;
-        try {
+            try {
                 response = client.execute(request);
                 result = EntityUtils.toString(response.getEntity());
                 jsonObject = new JSONObject(result);
@@ -187,8 +215,20 @@ public class DistanceListActivity4 extends Activity implements OnItemClickListen
                 JSONArray leg = obj.getJSONArray("legs");
                 JSONObject obj2 = leg.getJSONObject(0);
                 JSONObject text = obj2.getJSONObject("distance");
+
+
+                //JSONObject strAdrObj = leg.getJSONObject(0);
+
+
+
+                //JSONObject streetAddress = obj2.getJSONObject("end_address");
+
+                //String streetAddressString = strAdrObj.getString("end_address");
+                //String streetAddressString = text.getString("end_address");
+                //Log.d("DistanceList4", streetAddressString);
+
                 String result2 = text.getString("text");
-                 Log.d("Default", "3333333TotalDistance is >" + result2);
+                Log.d("Default", "3333333TotalDistance is >" + result2);
                 resultater[position] = result2;
                 return result2;
             } catch (IOException e) {
@@ -203,20 +243,9 @@ public class DistanceListActivity4 extends Activity implements OnItemClickListen
         @Override
         protected void onPostExecute(String result) {
             address.setText(result);
+            //distance.setText();
             Log.d("Default", "4444444TotalDistance is >" + result);
         }
-    }
-
-  @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(this, "Klik på " + position, Toast.LENGTH_SHORT).show();
-
-        GPSCoordinate destinationGPSPoint = coordinates.get(position);
-
-        Intent i = new Intent(this, MapActivity2.class);
-        i.putExtra("drawPoly", false);
-        i.putExtra("destination", (Serializable) destinationGPSPoint);
-        startActivity(i);
     }
 }
 

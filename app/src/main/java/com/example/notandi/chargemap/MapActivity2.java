@@ -13,6 +13,7 @@ import com.example.notandi.chargemap.Navigator.OnPathSetListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -38,6 +39,8 @@ public class MapActivity2 extends FragmentActivity implements LocationListener, 
         drawPolyLine = true;
 
         setUpMapIfNeeded();
+
+        mMap.setMyLocationEnabled(true);
 
         //Location
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -77,9 +80,12 @@ public class MapActivity2 extends FragmentActivity implements LocationListener, 
         // Initialize map options. For example:
         // mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         //double[][] markersList = db.getList();
-        printMarkersToConsole();
+        //printMarkersToConsole();
 
-        //rCoordinate  = (GPSCoordinate) getIntent().getSerializableExtra("destination");
+        rCoordinate  = (GPSCoordinate) getIntent().getSerializableExtra("destination");
+        LatLng blueMarker = new LatLng(rCoordinate.getLat(), rCoordinate.getLon());
+        addDesiredMarker(rCoordinate.getLat(), rCoordinate.getLon());
+
 
         //LatLng intentStart = new LatLng(53.606779, 9.904833);
         //LatLng intentEnd = new LatLng(rCoordinate.getLat(), rCoordinate.getLon());
@@ -124,8 +130,8 @@ public class MapActivity2 extends FragmentActivity implements LocationListener, 
     }
 
     private void runDirections(LatLng destination){
-
-        LatLng start = new LatLng(53.606779, 9.904833);
+        location = locationManager.getLastKnownLocation("network");
+        LatLng start = new LatLng(location.getLatitude(),location.getLongitude());
 
         nav = new Navigator(mMap, start, destination);
         nav.setDrawPolyLine(true);
@@ -157,14 +163,35 @@ public class MapActivity2 extends FragmentActivity implements LocationListener, 
 
         mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(lat, lon))
-                .title("Hello world"));
+                .title("ChargeStation"));
+        mMap.setOnMarkerClickListener(this);
+    }
+
+    private void addDesiredMarker(double lat, double lon) {
+
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(lat, lon))
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher))
+                .title("ChargeStation"));
+
 
         mMap.setOnMarkerClickListener(this);
     }
 
+    private void addMyLocationMarker(double lat, double lon) {
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(lat, lon))
+                .title("You are here"));
+    }
+
+
+
     @Override
     public void onLocationChanged(Location location) {
         // TODO Auto-generated method stub
+
+
+
     }
 
     @Override

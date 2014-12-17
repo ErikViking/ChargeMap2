@@ -39,6 +39,9 @@
             android:name=".MapActivity"
             android:label="MapActivity"></activity>
         <activity
+            android:name=".MapActivity2"
+            android:label="MapActivity2"></activity>
+        <activity
             android:name=".MenuActivity"
             android:label="MenuActivity"></activity>
         <activity
